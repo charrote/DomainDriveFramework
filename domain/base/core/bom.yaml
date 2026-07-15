@@ -1,0 +1,132 @@
+# domain/base/core/bom.yaml
+domain: base.bom
+name: BOM 清单
+version: 1.0.0
+description: 产品 BOM 结构，支持多级物料清单
+
+entities:
+  - name: ProductBOM
+    label: 产品 BOM
+    table: product_bom
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: bom_code
+        type: string
+        label: BOM 编码
+        max_length: 32
+        required: true
+      - name: product_code
+        type: string
+        label: 产品编码
+        max_length: 64
+        required: true
+      - name: product_name
+        type: string
+        label: 产品名称
+        max_length: 128
+      - name: version
+        type: string
+        label: 版本号
+        max_length: 16
+        default: "1.0"
+      - name: status
+        type: enum
+        label: 状态
+        values: draft, released, obsolete
+        default: draft
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: items
+        target: BOMItem
+        type: has_many
+        inverse_of: product_bom
+        label: BOM 明细
+
+  - name: BOMItem
+    label: BOM 明细
+    table: bom_item
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: product_bom_id
+        type: relation
+        label: 所属 BOM
+        relation: ProductBOM
+        required: true
+      - name: material_code
+        type: string
+        label: 物料编码
+        max_length: 64
+        required: true
+      - name: material_name
+        type: string
+        label: 物料名称
+        max_length: 128
+      - name: quantity
+        type: float
+        label: 用量
+        required: true
+        validate:
+          min: 0
+      - name: unit
+        type: string
+        label: 单位
+        max_length: 16
+      - name: scrap_rate
+        type: float
+        label: 损耗率(%)
+        default: 0
+      - name: parent_item_id
+        type: relation
+        label: 上级物料
+        relation: BOMItem
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+    relations:
+      - name: product_bom
+        target: ProductBOM
+        type: belongs_to
+        foreign_key: product_bom_id
+        label: 所属 BOM
+
+    list_view:
+      columns:
+        - field: material_code
+          label: 物料编码
+        - field: material_name
+          label: 物料名称
+        - field: quantity
+          label: 用量
+          align: right
+        - field: unit
+          label: 单位
+        - field: scrap_rate
+          label: 损耗率(%)
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

@@ -1,0 +1,108 @@
+# domain/base/core/inspection_plan.yaml
+domain: base.inspection_plan
+name: 抽样方案
+version: 1.0.0
+description: 抽样标准定义，含批量范围和判定标准
+
+entities:
+  - name: InspectionPlan
+    label: 抽样方案
+    table: inspection_plan
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: plan_code
+        type: string
+        label: 方案编码
+        max_length: 32
+        required: true
+        unique: true
+      - name: plan_name
+        type: string
+        label: 方案名称
+        max_length: 64
+        required: true
+      - name: check_type
+        type: enum
+        label: 适用检验类型
+        values: iqc, pqc, oqc, first_article
+        default: iqc
+      - name: batch_min
+        type: integer
+        label: 批量下限
+        required: true
+        validate:
+          min: 0
+      - name: batch_max
+        type: integer
+        label: 批量上限
+        required: true
+        validate:
+          min: 0
+      - name: sample_size
+        type: integer
+        label: 抽样数量
+        required: true
+        validate:
+          min: 1
+      - name: accept_limit
+        type: integer
+        label: 合格判定数(Ac)
+        default: 0
+        description: 允许的最大不合格数
+      - name: reject_limit
+        type: integer
+        label: 不合格判定数(Re)
+        default: 1
+        description: 拒收的最小不合格数
+      - name: severity
+        type: enum
+        label: 严格度
+        values: normal, tightened, reduced
+        default: normal
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+    list_view:
+      columns:
+        - field: plan_code
+          label: 方案编码
+        - field: plan_name
+          label: 方案名称
+        - field: check_type
+          label: 检验类型
+          formatter: tag
+        - field: batch_min
+          label: 批量下限
+          align: right
+        - field: batch_max
+          label: 批量上限
+          align: right
+        - field: sample_size
+          label: 抽样数
+          align: right
+        - field: accept_limit
+          label: Ac
+          align: right
+        - field: reject_limit
+          label: Re
+          align: right
+
+    permissions:
+      read:      [quality_inspector, admin]
+      create:    [quality_inspector, admin]
+      write:     [quality_inspector, admin]
+      delete:    [admin]

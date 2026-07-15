@@ -1,0 +1,133 @@
+/* ===== 品牌色系 ===== */
+:root {
+  /* 主色：深海蓝 — 传递稳定、专业、工业感 */
+  --color-primary-50:  #e6e9f5;
+  --color-primary-100: #cdd3eb;
+  --color-primary-200: #99a9d8;
+  --color-primary-300: #667fc5;
+  --color-primary-400: #3d5bb6;
+  --color-primary-500: #1E2761;
+  --color-primary-600: #1a2256;
+  --color-primary-700: #151c48;
+  --color-primary-800: #10163a;
+  --color-primary-900: #0b102c;
+
+  /* 辅助色：工业钢灰 */
+  --color-steel-50:   #f6f7f9;
+  --color-steel-100:  #eaecf1;
+  --color-steel-200:  #d6dae2;
+  --color-steel-300:  #a8aec0;
+  --color-steel-400:  #7a8399;
+  --color-steel-500:  #51586d;
+  --color-steel-600:  #3d4356;
+  --color-steel-700:  #2d3243;
+  --color-steel-800:  #202432;
+  --color-steel-900:  #141721;
+
+  /* 功能色：工业信号灯语义 */
+  --color-success:  #16a34a;
+  --color-warning:  #d97706;
+  --color-danger:   #dc2626;
+  --color-info:     #51586d;
+  --color-pending:  #9ca3af;
+
+  /* 状态色映射 */
+  --color-status-pending:   #9ca3af;
+  --color-status-running:   #1E2761;
+  --color-status-paused:    #d97706;
+  --color-status-completed: #16a34a;
+  --color-status-cancelled: #dc2626;
+
+  /* 文本色系 */
+  --color-text-primary:   #141721;
+  --color-text-secondary: #51586d;
+  --color-text-tertiary:  #a8aec0;
+  --color-text-disabled:  #d6dae2;
+
+  /* 边框色系 */
+  --color-border-default: #d6dae2;
+  --color-border-strong:  #a8aec0;
+  --color-border-focus:   #1E2761;
+
+  /* 背景色系 */
+  --color-bg-page:     #f6f7f9;
+  --color-bg-subtle:   #eaecf1;
+  --color-bg-surface:  #ffffff;
+  --color-bg-elevated: #ffffff;
+
+  /* 分割线 & 叠加层 */
+  --color-divider:     #eaecf1;
+  --color-overlay:     rgba(20, 23, 33, 0.4);
+}
+
+/* ===== 暗色主题 ===== */
+[data-theme="dark"] {
+  --color-text-primary:   #eaecf1;
+  --color-text-secondary: #a8aec0;
+  --color-text-tertiary:  #51586d;
+  --color-text-disabled:  #2d3243;
+
+  --color-border-default: #2d3243;
+  --color-border-strong:  #3d4356;
+  --color-border-focus:   #667fc5;
+
+  --color-bg-page:     #141721;
+  --color-bg-subtle:   #202432;
+  --color-bg-surface:  #202432;
+  --color-bg-elevated: #2d3243;
+
+  --color-divider:     #2d3243;
+  --color-overlay:     rgba(0, 0, 0, 0.6);
+
+  --color-success:  #4ade80;
+  --color-warning:  #fbbf24;
+  --color-danger:   #f87171;
+  --color-info:     #a8aec0;
+  --color-pending:  #51586d;
+}
+
+/* ===== 高对比度主题（无障碍需求 WCAG AAA） ===== */
+[data-theme="hc"] {
+  --color-text-primary:   #ffffff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-tertiary:  #b0b0b0;
+  --color-text-disabled:  #666666;
+
+  --color-border-default: #a8aec0;
+  --color-border-strong:  #d0d0d0;
+  --color-border-focus:   #99a9d8;
+
+  --color-bg-page:     #000000;
+  --color-bg-subtle:   #1a1a1a;
+  --color-bg-surface:  #1a1a1a;
+  --color-bg-elevated: #2a2a2a;
+
+  --color-divider:     #333333;
+  --color-overlay:     rgba(0, 0, 0, 0.7);
+
+  --color-success:  #6ee7b7;
+  --color-warning:  #fcd34d;
+  --color-danger:   #fca5a5;
+  --color-info:     #c0c0c0;
+  --color-pending:  #888888;
+
+  --color-primary-50:  #1a1a3a;
+  --color-primary-100: #2a2a5a;
+  --color-primary-200: #3a3a7a;
+  --color-primary-300: #667fc5;
+  --color-primary-400: #8899dd;
+  --color-primary-500: #99a9d8;
+  --color-primary-600: #aabbee;
+  --color-primary-700: #bbccff;
+
+  --color-steel-900:  #ffffff;
+  --color-steel-800:  #e0e0e0;
+  --color-steel-700:  #c0c0c0;
+  --color-steel-600:  #a0a0a0;
+  --color-steel-500:  #808080;
+  --color-steel-400:  #606060;
+  --color-steel-300:  #505050;
+  --color-steel-200:  #404040;
+  --color-steel-100:  #303030;
+  --color-steel-50:   #202020;
+}

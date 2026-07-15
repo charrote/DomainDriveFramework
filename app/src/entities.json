@@ -1,0 +1,200 @@
+[
+  {
+    "name": "Barcode",
+    "label": "条码",
+    "domain": "base.barcode",
+    "table": "barcode"
+  },
+  {
+    "name": "ProductBOM",
+    "label": "产品 BOM",
+    "domain": "base.bom",
+    "table": "product_bom"
+  },
+  {
+    "name": "BOMItem",
+    "label": "BOM 明细",
+    "domain": "base.bom",
+    "table": "bom_item"
+  },
+  {
+    "name": "CodingRule",
+    "label": "编码规则",
+    "domain": "base.coding_rule",
+    "table": "coding_rule"
+  },
+  {
+    "name": "Container",
+    "label": "容器",
+    "domain": "base.container",
+    "table": "container"
+  },
+  {
+    "name": "DefectCategory",
+    "label": "缺陷分类",
+    "domain": "base.defect",
+    "table": "defect_category"
+  },
+  {
+    "name": "Defect",
+    "label": "缺陷",
+    "domain": "base.defect",
+    "table": "defect"
+  },
+  {
+    "name": "DeviceCategory",
+    "label": "设备分类",
+    "domain": "base.device",
+    "table": "device_category"
+  },
+  {
+    "name": "Device",
+    "label": "设备",
+    "domain": "base.device",
+    "table": "device"
+  },
+  {
+    "name": "InspectionItem",
+    "label": "检验项目",
+    "domain": "base.inspection_item",
+    "table": "inspection_item"
+  },
+  {
+    "name": "InspectionPlan",
+    "label": "抽样方案",
+    "domain": "base.inspection_plan",
+    "table": "inspection_plan"
+  },
+  {
+    "name": "MaterialCategory",
+    "label": "物料分类",
+    "domain": "base.material",
+    "table": "material_category"
+  },
+  {
+    "name": "Material",
+    "label": "物料",
+    "domain": "base.material",
+    "table": "material"
+  },
+  {
+    "name": "MaterialAttrTemplate",
+    "label": "物料属性模板",
+    "domain": "base.material_attr_template",
+    "table": "material_attr_template"
+  },
+  {
+    "name": "MaterialAttrValue",
+    "label": "物料属性值",
+    "domain": "base.material_attr_template",
+    "table": "material_attr_value"
+  },
+  {
+    "name": "Operator",
+    "label": "作业人员",
+    "domain": "base.operator",
+    "table": "operator"
+  },
+  {
+    "name": "Factory",
+    "label": "工厂",
+    "domain": "base.org_structure",
+    "table": "org_factory"
+  },
+  {
+    "name": "Workshop",
+    "label": "车间",
+    "domain": "base.org_structure",
+    "table": "org_workshop"
+  },
+  {
+    "name": "ProductionLine",
+    "label": "产线",
+    "domain": "base.org_structure",
+    "table": "org_production_line"
+  },
+  {
+    "name": "ProcessParam",
+    "label": "工艺参数",
+    "domain": "base.process_param",
+    "table": "process_param"
+  },
+  {
+    "name": "ProcessRoute",
+    "label": "工艺路线",
+    "domain": "base.process_route",
+    "table": "process_route"
+  },
+  {
+    "name": "ProcessStep",
+    "label": "工序",
+    "domain": "base.process_step",
+    "table": "process_step"
+  },
+  {
+    "name": "ProductionRecord",
+    "label": "生产记录",
+    "domain": "base.production_record",
+    "table": "production_record"
+  },
+  {
+    "name": "QualityCategory",
+    "label": "质量分类",
+    "domain": "base.quality_category",
+    "table": "quality_category"
+  },
+  {
+    "name": "QualityCheck",
+    "label": "质检记录",
+    "domain": "base.quality_check",
+    "table": "quality_check"
+  },
+  {
+    "name": "ShiftPattern",
+    "label": "班制",
+    "domain": "base.shift",
+    "table": "shift_pattern"
+  },
+  {
+    "name": "Shift",
+    "label": "班次",
+    "domain": "base.shift",
+    "table": "shift"
+  },
+  {
+    "name": "Skill",
+    "label": "技能",
+    "domain": "base.skill",
+    "table": "skill"
+  },
+  {
+    "name": "OperatorSkill",
+    "label": "人员技能",
+    "domain": "base.skill",
+    "table": "operator_skill"
+  },
+  {
+    "name": "User",
+    "label": "用户",
+    "domain": "base.user",
+    "table": "sys_user"
+  },
+  {
+    "name": "WorkOrder",
+    "label": "工单",
+    "domain": "base.work_order",
+    "table": "work_order"
+  },
+  {
+    "name": "WOBOMItem",
+    "label": "工单 BOM 明细",
+    "domain": "base.work_order_bom",
+    "table": "wo_bom_item"
+  },
+  {
+    "name": "Workstation",
+    "label": "工位",
+    "domain": "base.workstation",
+    "table": "workstation"
+  }
+]

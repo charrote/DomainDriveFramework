@@ -1,0 +1,48 @@
+# domain/base/core/quality_category.yaml
+domain: base.quality_category
+name: 质量分类
+version: 1.0.0
+description: 质量三级分类体系，用于缺陷和检验项目分类
+
+entities:
+  - name: QualityCategory
+    label: 质量分类
+    table: quality_category
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: category_code
+        type: string
+        label: 分类编码
+        max_length: 32
+        required: true
+      - name: category_name
+        type: string
+        label: 分类名称
+        max_length: 64
+        required: true
+      - name: level
+        type: integer
+        label: 层级（1=大类/2=中类/3=小类）
+        required: true
+        default: 1
+      - name: parent_id
+        type: relation
+        label: 上级分类
+        relation: QualityCategory
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+
+    permissions:
+      read:      [operator, supervisor, quality_inspector, admin]
+      create:    [quality_inspector, admin]
+      write:     [quality_inspector, admin]
+      delete:    [admin]

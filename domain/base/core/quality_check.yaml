@@ -1,0 +1,156 @@
+# domain/base/core/quality_check.yaml
+domain: base.quality_check
+name: 质检记录
+version: 1.0.0
+description: 统一质检记录，覆盖 IQC/PQC/OQC/首件检验
+
+entities:
+  - name: QualityCheck
+    label: 质检记录
+    table: quality_check
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: check_no
+        type: string
+        label: 检验编号
+        max_length: 32
+        required: true
+        generate: true
+        generate_rule: "QC{YYYYMMDD}{SEQ5}"
+        sequence:
+          strategy: db
+          scope: daily
+          padding: 5
+      - name: work_order_no
+        type: relation
+        label: 关联工单
+        relation: WorkOrder
+      - name: production_record_id
+        type: relation
+        label: 关联生产记录
+        relation: ProductionRecord
+      - name: check_type
+        type: enum
+        label: 检验类型
+        values: iqc, pqc, oqc, first_article, rework
+        default: pqc
+        required: true
+      - name: check_name
+        type: string
+        label: 检验项目
+        max_length: 128
+        required: true
+      - name: inspection_item_id
+        type: relation
+        label: 检验标准
+        relation: InspectionItem
+      - name: sample_size
+        type: integer
+        label: 抽样数量
+        default: 1
+      - name: measured_value
+        type: float
+        label: 测量值
+      - name: tolerance_min
+        type: float
+        label: 规格下限
+      - name: tolerance_max
+        type: float
+        label: 规格上限
+      - name: result
+        type: enum
+        label: 判定结果
+        values: pass, fail, rework, pending
+        default: pending
+        required: true
+        status_field: true
+        options:
+          pass:   { label: 合格, color: "#52c41a" }
+          fail:   { label: 不合格, color: "#f5222d" }
+          rework: { label: 返工, color: "#fa8c16" }
+          pending: { label: 待判定, color: "#9ca3af" }
+      - name: defect_id
+        type: relation
+        label: 缺陷类型
+        relation: Defect
+      - name: inspector_id
+        type: relation
+        label: 检验员
+        relation: User
+        auto_fill: CURRENT_USER
+      - name: check_time
+        type: datetime
+        label: 检验时间
+        auto_fill: NOW()
+        read_only: true
+      - name: remark
+        type: string
+        label: 备注
+        max_length: 500
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: work_order
+        target: WorkOrder
+        type: belongs_to
+        foreign_key: work_order_no
+        label: 关联工单
+      - name: inspector
+        target: User
+        type: belongs_to
+        foreign_key: inspector_id
+        label: 检验员
+
+    list_view:
+      columns:
+        - field: check_no
+          label: 检验编号
+          sortable: true
+        - field: work_order_no
+          label: 工单
+        - field: check_type
+          label: 检验类型
+          formatter: tag
+        - field: check_name
+          label: 检验项目
+        - field: measured_value
+          label: 测量值
+          align: right
+        - field: result
+          label: 结果
+          formatter: status_tag
+        - field: inspector_id
+          label: 检验员
+        - field: check_time
+          label: 检验时间
+      search_fields:
+        - field: check_no
+          type: input
+          placeholder: "检验编号"
+        - field: check_type
+          type: select
+          options_from_field: check_type
+          placeholder: "检验类型"
+        - field: result
+          type: select
+          options_from_field: result
+          placeholder: "判定结果"
+
+    permissions:
+      read:      [operator, supervisor, quality_inspector, admin]
+      create:    [quality_inspector, admin]
+      write:     [quality_inspector, admin]
+      delete:    [admin]

@@ -1,0 +1,92 @@
+# domain/base/core/barcode.yaml
+domain: base.barcode
+name: 条码管理
+version: 1.0.0
+description: 条码生成与状态追踪，支撑一物一码/一批一码追溯
+
+entities:
+  - name: Barcode
+    label: 条码
+    table: barcode
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: barcode
+        type: string
+        label: 条码
+        max_length: 64
+        required: true
+        unique: true
+      - name: material_code
+        type: string
+        label: 物料编码
+        max_length: 64
+      - name: batch_no
+        type: string
+        label: 批次号
+        max_length: 32
+      - name: quantity
+        type: float
+        label: 数量
+        validate:
+          min: 0
+      - name: status
+        type: enum
+        label: 条码状态
+        values: in_stock, issued, consumed, scrapped, returned
+        default: in_stock
+        required: true
+        status_field: true
+      - name: production_date
+        type: date
+        label: 生产日期
+      - name: work_order_no
+        type: relation
+        label: 来源工单
+        relation: WorkOrder
+      - name: container_id
+        type: relation
+        label: 所在容器
+        relation: Container
+      - name: remark
+        type: string
+        label: 备注
+        max_length: 256
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    list_view:
+      columns:
+        - field: barcode
+          label: 条码
+        - field: material_code
+          label: 物料
+        - field: batch_no
+          label: 批次号
+        - field: quantity
+          label: 数量
+          align: right
+        - field: status
+          label: 状态
+          formatter: status_tag
+        - field: production_date
+          label: 生产日期
+        - field: container_id
+          label: 所在容器
+
+    permissions:
+      read:      [operator, supervisor, quality_inspector, admin]
+      create:    [operator, supervisor, admin]
+      write:     [operator, supervisor, admin]
+      delete:    [admin]

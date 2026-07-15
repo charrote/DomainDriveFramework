@@ -1,0 +1,138 @@
+/* ===== 全局重置 + 基础样式 ===== */
+@import './color.css';
+@import './typography.css';
+@import './space.css';
+@import './layout.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  background: var(--color-bg-page);
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+#app {
+  min-height: 100vh;
+}
+
+/* 通用滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-steel-200);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-steel-300);
+}
+
+/* 通用选择高亮 */
+::selection {
+  background: var(--color-primary-200);
+  color: var(--color-primary-900);
+}
+
+/* 通用链接 */
+a {
+  color: var(--color-primary-500);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary-400);
+  text-decoration: underline;
+}
+
+/* 通用图片 */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* 通用表格 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 通用输入 */
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ===== WCAG 无障碍基础 ===== */
+
+/* 全局 focus-visible 样式 */
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* 移除鼠标点击时的 focus 环（仅保留键盘 focus） */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* 尊重用户减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 屏幕阅读器仅可见 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* 跳过导航链接（键盘用户） */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--color-primary-500);
+  color: white;
+  padding: 8px 16px;
+  z-index: 10000;
+  font-size: var(--font-size-sm);
+  border-radius: 0 0 var(--radius-sm) 0;
+}
+.skip-to-content:focus {
+  top: 0;
+}

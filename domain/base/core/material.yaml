@@ -1,0 +1,118 @@
+# domain/base/core/material.yaml
+domain: base.material
+name: 物料管理
+version: 1.0.0
+description: 物料主数据，含三级分类体系和自定义属性
+
+entities:
+  - name: MaterialCategory
+    label: 物料分类
+    table: material_category
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: category_code
+        type: string
+        label: 分类编码
+        max_length: 32
+        required: true
+      - name: category_name
+        type: string
+        label: 分类名称
+        max_length: 64
+        required: true
+      - name: level
+        type: integer
+        label: 层级
+        required: true
+        default: 1
+      - name: parent_id
+        type: relation
+        label: 上级分类
+        relation: MaterialCategory
+
+  - name: Material
+    label: 物料
+    table: material
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: material_code
+        type: string
+        label: 物料编码
+        max_length: 64
+        required: true
+        unique: true
+      - name: material_name
+        type: string
+        label: 物料名称
+        max_length: 128
+        required: true
+      - name: specification
+        type: string
+        label: 规格型号
+        max_length: 256
+      - name: category_id
+        type: relation
+        label: 物料分类
+        relation: MaterialCategory
+      - name: unit
+        type: enum
+        label: 基本单位
+        values: piece, kg, meter, liter, set, roll, box, pair
+        default: piece
+        required: true
+      - name: material_type
+        type: enum
+        label: 物料类型
+        values: raw_material, semi_finished, finished, auxiliary, packaging
+        default: raw_material
+        required: true
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive, obsolete
+        default: active
+        status_field: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    list_view:
+      columns:
+        - field: material_code
+          label: 物料编码
+        - field: material_name
+          label: 物料名称
+        - field: specification
+          label: 规格型号
+        - field: category_id
+          label: 物料分类
+        - field: unit
+          label: 单位
+        - field: material_type
+          label: 物料类型
+          formatter: tag
+        - field: status
+          label: 状态
+          formatter: status_tag
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

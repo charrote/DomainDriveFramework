@@ -1,0 +1,59 @@
+# domain/base/core/workstation.yaml
+domain: base.workstation
+name: 工位
+version: 1.0.0
+description: 工位定义，关联产线和设备
+
+entities:
+  - name: Workstation
+    label: 工位
+    table: workstation
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: station_code
+        type: string
+        label: 工位编码
+        max_length: 32
+        required: true
+      - name: station_name
+        type: string
+        label: 工位名称
+        max_length: 64
+        required: true
+      - name: production_line_id
+        type: relation
+        label: 所属产线
+        relation: ProductionLine
+        required: true
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: production_line
+        target: ProductionLine
+        type: belongs_to
+        foreign_key: production_line_id
+        label: 所属产线
+      - name: devices
+        target: Device
+        type: has_many
+        inverse_of: workstation
+        label: 工位设备

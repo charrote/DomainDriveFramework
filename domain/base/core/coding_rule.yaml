@@ -1,0 +1,102 @@
+# domain/base/core/coding_rule.yaml
+domain: base.coding_rule
+name: 编码规则
+version: 1.0.0
+description: 统一编码规则定义，管理所有业务编号的生成策略
+
+entities:
+  - name: CodingRule
+    label: 编码规则
+    table: coding_rule
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: rule_code
+        type: string
+        label: 规则编码
+        max_length: 32
+        required: true
+        unique: true
+      - name: rule_name
+        type: string
+        label: 规则名称
+        max_length: 64
+        required: true
+      - name: entity_type
+        type: enum
+        label: 适用对象
+        values: work_order, quality_check, barcode, device, production_record, operator
+        required: true
+      - name: prefix
+        type: string
+        label: 前缀
+        max_length: 16
+        description: 如 "WO"、"QC"、"PR"
+      - name: date_format
+        type: string
+        label: 日期格式
+        max_length: 16
+        default: "YYYYMMDD"
+        description: 如 "YYYYMMDD"、"YYMMDD"
+      - name: seq_digits
+        type: integer
+        label: 流水号位数
+        default: 5
+        validate:
+          min: 3
+          max: 10
+      - name: seq_strategy
+        type: enum
+        label: 流水号策略
+        values: db, redis, snowflake
+        default: db
+      - name: seq_scope
+        type: enum
+        label: 流水号范围
+        values: daily, monthly, global
+        default: daily
+      - name: sample_output
+        type: string
+        label: 示例输出
+        max_length: 32
+        description: 如 "WO2026071400005"
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+    list_view:
+      columns:
+        - field: rule_code
+          label: 规则编码
+        - field: rule_name
+          label: 规则名称
+        - field: entity_type
+          label: 适用对象
+          formatter: tag
+        - field: prefix
+          label: 前缀
+        - field: seq_digits
+          label: 流水号位数
+          align: right
+        - field: sample_output
+          label: 示例
+        - field: status
+          label: 状态
+          formatter: status_tag
+
+    permissions:
+      read:      [supervisor, admin]
+      create:    [admin]
+      write:     [admin]
+      delete:    [admin]

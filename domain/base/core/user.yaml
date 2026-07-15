@@ -1,0 +1,59 @@
+# domain/base/core/user.yaml
+domain: base.user
+name: 用户与角色
+version: 1.0.0
+description: 系统用户认证与 RBAC 权限体系
+
+entities:
+  - name: User
+    label: 用户
+    table: sys_user
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: username
+        type: string
+        label: 用户名
+        max_length: 64
+        required: true
+        unique: true
+      - name: real_name
+        type: string
+        label: 真实姓名
+        max_length: 64
+      - name: password_hash
+        type: string
+        label: 密码哈希
+        max_length: 256
+        read_only: true
+      - name: role
+        type: enum
+        label: 角色
+        values: operator, supervisor, quality_inspector, admin
+        default: operator
+        required: true
+      - name: status
+        type: enum
+        label: 账户状态
+        values: active, disabled
+        default: active
+        status_field: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    permissions:
+      read:      [admin]
+      create:    [admin]
+      write:     [admin]
+      delete:    [admin]

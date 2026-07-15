@@ -1,0 +1,72 @@
+# domain/base/core/work_order_bom.yaml
+domain: base.work_order_bom
+name: 工单 BOM
+version: 1.0.0
+description: 工单级别的物料清单，从产品 BOM 复制生成
+
+entities:
+  - name: WOBOMItem
+    label: 工单 BOM 明细
+    table: wo_bom_item
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: work_order_no
+        type: relation
+        label: 所属工单
+        relation: WorkOrder
+        required: true
+      - name: material_code
+        type: string
+        label: 物料编码
+        max_length: 64
+        required: true
+      - name: material_name
+        type: string
+        label: 物料名称
+        max_length: 128
+      - name: required_qty
+        type: float
+        label: 需求数量
+        required: true
+        validate:
+          min: 0
+      - name: consumed_qty
+        type: float
+        label: 已消耗数量
+        default: 0
+        read_only: true
+      - name: unit
+        type: string
+        label: 单位
+        max_length: 16
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+    list_view:
+      columns:
+        - field: material_code
+          label: 物料编码
+        - field: material_name
+          label: 物料名称
+        - field: required_qty
+          label: 需求数量
+          align: right
+        - field: consumed_qty
+          label: 已消耗
+          align: right
+        - field: unit
+          label: 单位
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [operator, supervisor, admin]
+      delete:    [admin]

@@ -1,0 +1,35 @@
+# domain/base/workflows/quality_check_flow.yaml
+name: quality_check_flow
+label: 质检状态机
+entity: QualityCheck
+field: result
+description: 质检判定结果流转
+states:
+  pending:
+    label: 待判定
+    color: "#9ca3af"
+  pass:
+    label: 合格
+    color: "#52c41a"
+    final: true
+  fail:
+    label: 不合格
+    color: "#f5222d"
+    final: true
+  rework:
+    label: 返工
+    color: "#fa8c16"
+    final: true
+transitions:
+  - from: pending
+    to: pass
+    label: 判定合格
+    required_role: [quality_inspector, admin]
+  - from: pending
+    to: fail
+    label: 判定不合格
+    required_role: [quality_inspector, admin]
+  - from: pending
+    to: rework
+    label: 判定返工
+    required_role: [quality_inspector, admin]

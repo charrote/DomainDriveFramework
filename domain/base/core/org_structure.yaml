@@ -1,0 +1,103 @@
+# domain/base/core/org_structure.yaml
+domain: base.org_structure
+name: 组织架构
+version: 1.0.0
+description: 工厂组织层级定义，工厂 → 车间 → 产线
+
+entities:
+  - name: Factory
+    label: 工厂
+    table: org_factory
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: factory_code
+        type: string
+        label: 工厂编码
+        max_length: 32
+        required: true
+        unique: true
+      - name: factory_name
+        type: string
+        label: 工厂名称
+        max_length: 128
+        required: true
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+  - name: Workshop
+    label: 车间
+    table: org_workshop
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: factory_id
+        type: relation
+        label: 所属工厂
+        relation: Factory
+        required: true
+      - name: workshop_code
+        type: string
+        label: 车间编码
+        max_length: 32
+        required: true
+      - name: workshop_name
+        type: string
+        label: 车间名称
+        max_length: 128
+        required: true
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+
+  - name: ProductionLine
+    label: 产线
+    table: org_production_line
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: workshop_id
+        type: relation
+        label: 所属车间
+        relation: Workshop
+        required: true
+      - name: line_code
+        type: string
+        label: 产线编码
+        max_length: 32
+        required: true
+      - name: line_name
+        type: string
+        label: 产线名称
+        max_length: 128
+        required: true
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true

@@ -1,0 +1,195 @@
+# domain/base/core/work_order.yaml
+domain: base.work_order
+name: 工单
+version: 1.0.0
+description: 离散制造核心工单实体，驱动整个生产执行流程
+
+entities:
+  - name: WorkOrder
+    label: 工单
+    table: work_order
+    fields:
+      - name: order_no
+        type: string
+        label: 工单编号
+        max_length: 32
+        primary_key: true
+        required: true
+        generate: true
+        generate_rule: "WO{YYYYMMDD}{SEQ5}"
+        sequence:
+          strategy: db
+          scope: daily
+          padding: 5
+      - name: product_code
+        type: string
+        label: 产品编码
+        max_length: 64
+        required: true
+      - name: product_name
+        type: string
+        label: 产品名称
+        max_length: 128
+        required: true
+      - name: quantity
+        type: integer
+        label: 计划数量
+        required: true
+        validate:
+          min: 1
+          error: "计划数量必须大于 0"
+      - name: completed_quantity
+        type: integer
+        label: 已完成数量
+        default: 0
+        read_only: true
+      - name: scrap_quantity
+        type: integer
+        label: 报废数量
+        default: 0
+        read_only: true
+      - name: status
+        type: enum
+        label: 工单状态
+        values: pending, released, running, paused, completed, cancelled
+        default: pending
+        required: true
+        status_field: true
+        workflow_ref: work_order_flow
+      - name: priority
+        type: enum
+        label: 优先级
+        values: low, normal, high, urgent
+        default: normal
+      - name: plan_start_date
+        type: date
+        label: 计划开始日期
+        required: true
+      - name: plan_end_date
+        type: date
+        label: 计划完成日期
+      - name: actual_start_time
+        type: datetime
+        label: 实际开工时间
+        auto_fill:
+          trigger: "status == 'running'"
+          value: NOW()
+        read_only: true
+      - name: actual_end_time
+        type: datetime
+        label: 实际完工时间
+        auto_fill:
+          trigger: "status == 'completed'"
+          value: NOW()
+        read_only: true
+      - name: route_id
+        type: relation
+        label: 工艺路线
+        relation: ProcessRoute
+      - name: production_line_id
+        type: relation
+        label: 生产产线
+        relation: ProductionLine
+      - name: shift_id
+        type: relation
+        label: 班次
+        relation: Shift
+      - name: comment
+        type: string
+        label: 备注
+        max_length: 500
+      - name: created_by
+        type: relation
+        label: 创建人
+        relation: User
+        auto_fill: CURRENT_USER
+        read_only: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: bom_items
+        target: WOBOMItem
+        type: has_many
+        inverse_of: work_order
+        label: 工单 BOM
+      - name: production_records
+        target: ProductionRecord
+        type: has_many
+        inverse_of: work_order
+        label: 生产记录
+      - name: quality_checks
+        target: QualityCheck
+        type: has_many
+        inverse_of: work_order
+        label: 质检记录
+      - name: creator
+        target: User
+        type: belongs_to
+        foreign_key: created_by
+        label: 创建人
+      - name: production_line
+        target: ProductionLine
+        type: belongs_to
+        foreign_key: production_line_id
+        label: 生产产线
+
+    list_view:
+      columns:
+        - field: order_no
+          label: 工单编号
+          sortable: true
+        - field: product_code
+          label: 产品编码
+        - field: product_name
+          label: 产品名称
+        - field: quantity
+          label: 计划数量
+          align: right
+        - field: completed_quantity
+          label: 已完成
+          align: right
+        - field: status
+          label: 状态
+          formatter: status_tag
+        - field: priority
+          label: 优先级
+          formatter: status_tag
+        - field: production_line_id
+          label: 产线
+        - field: plan_start_date
+          label: 计划开始
+        - field: actual_start_time
+          label: 实际开工
+      search_fields:
+        - field: order_no
+          type: input
+          placeholder: "工单编号"
+        - field: status
+          type: select
+          options_from_field: status
+          placeholder: "状态"
+        - field: priority
+          type: select
+          options_from_field: priority
+          placeholder: "优先级"
+
+    permissions:
+      read:      [operator, supervisor, quality_inspector, admin]
+      create:    [supervisor, admin]
+      write:     [operator, supervisor, admin]
+      delete:    [admin]
+      transition:
+        pending → released:  [supervisor, admin]
+        released → running:  [operator, admin]
+        running → paused:    [operator, admin]
+        paused → running:    [operator, admin]
+        running → completed: [operator, admin]
+        "* → cancelled":       [admin]

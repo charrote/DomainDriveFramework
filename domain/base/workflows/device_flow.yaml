@@ -1,0 +1,47 @@
+# domain/base/workflows/device_flow.yaml
+name: device_flow
+label: 设备状态机
+entity: Device
+field: status
+description: 设备基础状态流转
+states:
+  idle:
+    label: 空闲
+    color: "#52c41a"
+  running:
+    label: 运行中
+    color: "#3b82f6"
+  maintenance:
+    label: 维保中
+    color: "#fa8c16"
+  fault:
+    label: 故障
+    color: "#f5222d"
+  offline:
+    label: 离线
+    color: "#9ca3af"
+transitions:
+  - from: idle
+    to: running
+    label: 开机
+    required_role: [operator, admin]
+  - from: running
+    to: idle
+    label: 停机
+    required_role: [operator, admin]
+  - from: running
+    to: maintenance
+    label: 送修
+    required_role: [supervisor, admin]
+  - from: [idle, running]
+    to: fault
+    label: 报修
+    required_role: [operator, admin]
+  - from: [fault, maintenance]
+    to: idle
+    label: 恢复
+    required_role: [supervisor, admin]
+  - from: [idle, running, maintenance, fault]
+    to: offline
+    label: 下线
+    required_role: [admin]

@@ -1,0 +1,92 @@
+# domain/base/core/process_step.yaml
+domain: base.process_step
+name: 工序定义
+version: 1.0.0
+description: 工艺路线中的工序步骤，含工序参数和设备关联
+
+entities:
+  - name: ProcessStep
+    label: 工序
+    table: process_step
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: process_route_id
+        type: relation
+        label: 所属工艺路线
+        relation: ProcessRoute
+        required: true
+      - name: step_no
+        type: integer
+        label: 工序序号
+        required: true
+        validate:
+          min: 1
+      - name: step_code
+        type: string
+        label: 工序编码
+        max_length: 32
+      - name: step_name
+        type: string
+        label: 工序名称
+        max_length: 64
+        required: true
+      - name: standard_time_minutes
+        type: integer
+        label: 标准工时(分钟)
+        validate:
+          min: 0
+      - name: device_type_required
+        type: enum
+        label: 所需设备类型
+        values: production, tooling, fixture, test_equipment
+      - name: workstation_type
+        type: string
+        label: 工位类型
+        max_length: 32
+      - name: description
+        type: string
+        label: 工序描述
+        max_length: 500
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: process_route
+        target: ProcessRoute
+        type: belongs_to
+        foreign_key: process_route_id
+        label: 所属工艺路线
+
+    list_view:
+      columns:
+        - field: step_no
+          label: 工序序号
+          sortable: true
+        - field: step_code
+          label: 工序编码
+        - field: step_name
+          label: 工序名称
+        - field: standard_time_minutes
+          label: 标准工时
+          align: right
+        - field: device_type_required
+          label: 所需设备
+          formatter: tag
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

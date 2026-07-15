@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domain/domain-schema.json",
+  "title": "DomainDriveFramework DSL Schema",
+  "description": "领域模型 DSL 的 JSON Schema 定义，用于校验所有 YAML 文件的格式和引用完整性。详见 docs/01-architecture-overview.md",
+  "version": "1.0.0",
+  "definitions": {
+    "entity": {
+      "type": "object",
+      "required": ["domain", "name", "entities"],
+      "properties": {
+        "domain": { "type": "string", "pattern": "^[a-z][a-z0-9_.]*$", "maxLength": 64, "description": "实体标识符，支持命名空间，如 base.coding_rule" },
+        "name": { "type": "string", "description": "实体中文名称" },
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "语义化版本号" },
+        "description": { "type": "string" },
+        "entities": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/entity-def" }
+        }
+      }
+    },
+    "entity-def": {
+      "type": "object",
+      "required": ["name", "fields"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[A-Z][a-zA-Z0-9]*$", "description": "实体类名，PascalCase" },
+        "label": { "type": "string" },
+        "table": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "description": { "type": "string" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/field-def" }
+        },
+        "relations": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/relation-def" }
+        },
+        "list_view": { "$ref": "#/definitions/list-view" },
+        "detail_view": { "$ref": "#/definitions/detail-view" },
+        "permissions": { "$ref": "#/definitions/permissions" },
+        "import_export": { "$ref": "#/definitions/import-export" },
+        "mobile_config": { "$ref": "#/definitions/mobile-config" }
+      }
+    },
+    "field-def": {
+      "type": "object",
+      "required": ["name", "type", "label"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$", "maxLength": 64 },
+        "type": { "type": "string", "enum": ["string", "integer", "float", "boolean", "date", "datetime", "enum", "relation"] },
+        "label": { "type": "string" },
+        "primary_key": { "type": "boolean" },
+        "required": { "type": "boolean" },
+        "default": {},
+        "max_length": { "type": "integer", "minimum": 1 },
+        "generate": { "type": "boolean" },
+        "generate_rule": { "type": "string" },
+        "read_only": { "type": "boolean" },
+        "relation": { "type": "string" },
+        "status_field": { "type": "boolean" },
+        "workflow_ref": { "type": "string" },
+        "values": { "type": "string" },
+        "auto_fill": { "oneOf": [
+          { "type": "string" },
+          { "type": "object", "properties": {
+            "trigger": { "type": "string" },
+            "value": { "type": "string" }
+          } }
+        ]},
+        "auto_calculate": { "$ref": "#/definitions/auto-calculate" },
+        "validate": { "$ref": "#/definitions/validate-def" },
+        "options": { "type": "object" },
+        "sequence": { "type": "object", "properties": {
+          "strategy": { "type": "string", "enum": ["redis", "db", "snowflake"] },
+          "scope": { "type": "string", "enum": ["daily", "global"] },
+          "padding": { "type": "integer", "minimum": 1 }
+        }}
+      }
+    },
+    "relation-def": {
+      "type": "object",
+      "required": ["name", "target", "type"],
+      "properties": {
+        "name": { "type": "string" },
+        "target": { "type": "string" },
+        "type": { "type": "string", "enum": ["has_many", "belongs_to", "has_one", "many_to_many"] },
+        "inverse_of": { "type": "string" },
+        "foreign_key": { "type": "string" },
+        "cascade": { "type": "string" },
+        "label": { "type": "string" }
+      }
+    },
+    "auto-calculate": {
+      "type": "object",
+      "properties": {
+        "aggregate": { "type": "string", "enum": ["sum", "count", "avg", "min", "max"] },
+        "source": { "type": "string" },
+        "filter": { "type": "string" }
+      }
+    },
+    "validate-def": {
+      "type": "object",
+      "properties": {
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "pattern": { "type": "string" },
+        "error": { "type": "string" }
+      }
+    },
+    "list-view": {
+      "type": "object",
+      "properties": {
+        "columns": {
+          "type": "array",
+          "items": { "type": "object", "properties": {
+            "field": { "type": "string" },
+            "label": { "type": "string" },
+            "sortable": { "type": "boolean" },
+            "align": { "type": "string", "enum": ["left", "center", "right"] },
+            "formatter": { "type": "string" }
+          }}
+        },
+        "search_fields": {
+          "type": "array",
+          "items": { "type": "object", "properties": {
+            "field": { "type": "string" },
+            "type": { "type": "string", "enum": ["input", "select", "date_range"] },
+            "placeholder": { "type": "string" },
+            "options_from_field": { "type": "string" }
+          }}
+        }
+      }
+    },
+    "detail-view": {
+      "type": "object",
+      "properties": {
+        "layout": { "type": "string", "enum": ["tabs", "single"] },
+        "tabs": { "type": "array" }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "patternProperties": {
+        "^(read|create|write|delete|transition)$": {
+          "oneOf": [
+            { "type": "array", "items": { "type": "string" } },
+            { "type": "object" }
+          ]
+        }
+      }
+    },
+    "import-export": {
+      "type": "object",
+      "properties": {
+        "import": { "type": "object", "properties": {
+          "allowed": { "type": "boolean" },
+          "template_fields": { "type": "array", "items": { "type": "string" } },
+          "validation": { "type": "array", "items": { "type": "string" } },
+          "max_rows": { "type": "integer" }
+        }},
+        "export": { "type": "object", "properties": {
+          "allowed": { "type": "boolean" },
+          "max_rows": { "type": "integer" },
+          "formats": { "type": "array", "items": { "type": "string", "enum": ["xlsx", "csv"] } },
+          "include_relations": { "type": "array", "items": { "type": "string" } }
+        }}
+      }
+    },
+    "mobile-config": {
+      "type": "object",
+      "properties": {
+        "form_fields": { "type": "array" },
+        "buttons": { "type": "array" }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "required": ["name", "entity", "field", "states"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "label": { "type": "string" },
+        "entity": { "type": "string" },
+        "field": { "type": "string" },
+        "states": { "type": "object" },
+        "transitions": { "type": "array" }
+      }
+    },
+    "permissions-file": {
+      "type": "object",
+      "required": ["roles"],
+      "properties": {
+        "roles": {
+          "type": "array",
+          "items": { "type": "object", "required": ["name", "permissions"], "properties": {
+            "name": { "type": "string" },
+            "label": { "type": "string" },
+            "description": { "type": "string" },
+            "permissions": { "type": "array" }
+          }}
+        }
+      }
+    },
+    "orchestration": {
+      "type": "object",
+      "required": ["name", "triggers"],
+      "properties": {
+        "name": { "type": "string" },
+        "label": { "type": "string" },
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "description": { "type": "string" },
+        "triggers": { "type": "array" },
+        "compensations": { "type": "array" },
+        "timeouts": { "type": "array" },
+        "parallel": { "type": "array" },
+        "dependencies": { "type": "array" }
+      }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/definitions/entity" },
+    { "$ref": "#/definitions/workflow" },
+    { "$ref": "#/definitions/permissions-file" },
+    { "$ref": "#/definitions/orchestration" }
+  ]
+}

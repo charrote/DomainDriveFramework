@@ -1,0 +1,50 @@
+# domain/base/permissions/roles.yaml
+roles:
+  - name: operator
+    label: 操作员
+    description: 产线操作人员，负责开工/完工/记录生产数据
+    permissions:
+      - work_order: [read, transition(pending→running, running→paused, paused→running, running→completed)]
+      - production_record: [read, create, write]
+      - quality_check: [read]
+      - barcode: [read, create, write]
+      - device: [read]
+      - material: [read]
+      - operator: [read]
+      - container: [read, write]
+
+  - name: supervisor
+    label: 班组长
+    description: 产线管理人员，负责工单创建/人员管理/物料管理
+    permissions:
+      - work_order: [read, create, write, transition(pending→released)]
+      - production_record: [read, create, write]
+      - quality_check: [read]
+      - barcode: [read, create, write]
+      - device: [read, create, write]
+      - material: [read, create, write]
+      - operator: [read, create, write]
+      - shift: [read, create, write]
+      - skill: [read, create, write]
+      - container: [read, create, write]
+      - coding_rule: [read]
+      - org_structure: [read, create, write]
+
+  - name: quality_inspector
+    label: 质检员
+    description: 品质管理人员，负责质检录入/缺陷管理
+    permissions:
+      - quality_check: [read, create, write]
+      - defect: [read, create, write]
+      - quality_category: [read, create, write]
+      - inspection_item: [read, create, write]
+      - inspection_plan: [read, create, write]
+      - work_order: [read]
+      - production_record: [read]
+      - barcode: [read]
+
+  - name: admin
+    label: 管理员
+    description: 系统管理员，拥有全部权限
+    permissions:
+      - "*": [read, create, write, delete]

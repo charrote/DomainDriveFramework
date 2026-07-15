@@ -1,0 +1,52 @@
+# ============================================================
+# DDF Server — Node.js Express + Prisma
+# Multi-stage: install → build → run
+# ============================================================
+
+# ---- Stage 1: Install + Build ----
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# 安装依赖（利用 Docker 层缓存）
+COPY server/package.json server/package-lock.json* ./
+RUN npm ci --only=production
+
+# 复制 Prisma schema 并生成 Client
+COPY server/prisma ./prisma/
+COPY server/scripts ./scripts/
+RUN npx prisma generate
+
+# 复制源码
+COPY server/src ./src/
+
+# ---- Stage 2: Production Image ----
+FROM node:20-alpine
+
+WORKDIR /app
+
+RUN addgroup -S ddf && adduser -S ddf -G ddf -h /app && \
+    apk add --no-cache su-exec && \
+    mkdir -p /app/data && chown -R ddf:ddf /app/data && chmod 755 /app/data
+
+# 从 builder 复制产物
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/src ./src
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/scripts ./scripts
+
+# 环境变量默认值
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV DATABASE_URL="file:/app/data/dev.db"
+ENV JWT_SECRET="change-me-in-production"
+
+EXPOSE 3000
+
+# 启动脚本：以 root 初始化数据库，再降级到 ddf 用户运行
+COPY deploy/docker/entrypoint.sh /entrypoint.sh
+COPY deploy/docker/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["node", "src/index.js"]

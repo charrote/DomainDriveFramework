@@ -1,0 +1,154 @@
+# domain/base/core/production_record.yaml
+domain: base.production_record
+name: 生产记录
+version: 1.0.0
+description: 追溯核心实体，记录每道工序的实际执行情况
+
+entities:
+  - name: ProductionRecord
+    label: 生产记录
+    table: production_record
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: record_no
+        type: string
+        label: 记录编号
+        max_length: 32
+        required: true
+        generate: true
+        generate_rule: "PR{YYYYMMDD}{SEQ5}"
+        sequence:
+          strategy: db
+          scope: daily
+          padding: 5
+      - name: work_order_no
+        type: relation
+        label: 所属工单
+        relation: WorkOrder
+        required: true
+      - name: process_step_id
+        type: relation
+        label: 工序
+        relation: ProcessStep
+        required: true
+      - name: operator_id
+        type: relation
+        label: 操作人员
+        relation: Operator
+        auto_fill: CURRENT_USER
+      - name: device_id
+        type: relation
+        label: 使用设备
+        relation: Device
+      - name: shift_id
+        type: relation
+        label: 班次
+        relation: Shift
+      - name: production_line_id
+        type: relation
+        label: 产线
+        relation: ProductionLine
+      - name: start_time
+        type: datetime
+        label: 开始时间
+        required: true
+        auto_fill: NOW()
+      - name: end_time
+        type: datetime
+        label: 结束时间
+      - name: output_quantity
+        type: integer
+        label: 产出数量
+        required: true
+        validate:
+          min: 0
+      - name: scrap_quantity
+        type: integer
+        label: 不良数量
+        default: 0
+        validate:
+          min: 0
+      - name: status
+        type: enum
+        label: 记录状态
+        values: in_progress, completed
+        default: in_progress
+        status_field: true
+      - name: remark
+        type: string
+        label: 备注
+        max_length: 500
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: work_order
+        target: WorkOrder
+        type: belongs_to
+        foreign_key: work_order_no
+        label: 所属工单
+      - name: process_step
+        target: ProcessStep
+        type: belongs_to
+        foreign_key: process_step_id
+        label: 工序
+      - name: operator
+        target: Operator
+        type: belongs_to
+        foreign_key: operator_id
+        label: 操作人员
+      - name: device
+        target: Device
+        type: belongs_to
+        foreign_key: device_id
+        label: 使用设备
+      - name: shift
+        target: Shift
+        type: belongs_to
+        foreign_key: shift_id
+        label: 班次
+
+    list_view:
+      columns:
+        - field: record_no
+          label: 记录编号
+          sortable: true
+        - field: work_order_no
+          label: 工单
+        - field: process_step_id
+          label: 工序
+        - field: operator_id
+          label: 操作人员
+        - field: device_id
+          label: 设备
+        - field: start_time
+          label: 开始时间
+        - field: end_time
+          label: 结束时间
+        - field: output_quantity
+          label: 产出
+          align: right
+        - field: scrap_quantity
+          label: 不良
+          align: right
+        - field: status
+          label: 状态
+          formatter: status_tag
+
+    permissions:
+      read:      [operator, supervisor, quality_inspector, admin]
+      create:    [operator, supervisor, admin]
+      write:     [operator, supervisor, admin]
+      delete:    [admin]

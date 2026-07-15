@@ -1,0 +1,54 @@
+# domain/base/workflows/work_order_flow.yaml
+name: work_order_flow
+label: 工单状态机
+entity: WorkOrder
+field: status
+description: 工单核心状态流转
+states:
+  pending:
+    label: 待开工
+    color: "#9ca3af"
+  released:
+    label: 已下达
+    color: "#3b82f6"
+  running:
+    label: 生产中
+    color: "#52c41a"
+  paused:
+    label: 暂停中
+    color: "#fa8c16"
+  completed:
+    label: 已完成
+    color: "#1677ff"
+    final: true
+  cancelled:
+    label: 已取消
+    color: "#f5222d"
+    final: true
+transitions:
+  - from: pending
+    to: released
+    label: 下达
+    required_role: [supervisor, admin]
+  - from: released
+    to: running
+    label: 开工
+    required_role: [operator, admin]
+  - from: running
+    to: paused
+    label: 暂停
+    required_role: [operator, admin]
+  - from: paused
+    to: running
+    label: 恢复
+    required_role: [operator, admin]
+  - from: running
+    to: completed
+    label: 完工
+    required_role: [operator, admin]
+    validate:
+      - "quantity == completed_quantity + scrap_quantity"
+  - from: [pending, released, running, paused]
+    to: cancelled
+    label: 取消
+    required_role: [admin]

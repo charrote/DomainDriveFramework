@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DDF 精密五金 MES API",
+    "version": "1.0.0",
+    "description": "由 DomainDriveFramework 引擎自动生成",
+    "contact": {
+      "name": "DDF Engine"
+    }
+  },
+  "servers": [
+    { "url": "http://localhost:3000", "description": "本地开发" }
+  ],
+  "paths": {
+<% entities.forEach((entity, ei) => { -%>
+<% const kebab = toKebab(entity.name); -%>
+    "/api/<%= kebab %>": {
+      "get": {
+        "summary": "分页查询<%= entity.label %>",
+        "tags": ["<%= entity.name %>"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/<%= entity.name %>" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建<%= entity.label %>",
+        "tags": ["<%= entity.name %>"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/<%= entity.name %>Create" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/<%= kebab %>/{id}": {
+      "get": {
+        "summary": "查询<%= entity.label %>详情",
+        "tags": ["<%= entity.name %>"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新<%= entity.label %>",
+        "tags": ["<%= entity.name %>"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/<%= entity.name %>Create" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除<%= entity.label %>",
+        "tags": ["<%= entity.name %>"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    }<%= ei < entities.length - 1 ? ',' : '' %>
+<% }) -%>
+  },
+  "components": {
+    "schemas": {
+<% entities.forEach((entity, ei) => { -%>
+      "<%= entity.name %>": {
+        "type": "object",
+        "properties": {
+<%   entity.fields.forEach((field, fi) => { -%>
+          "<%= field.name %>": {
+            "type": "<%= openapiType(field.type) %>"<% if (field.description) { %>,
+            "description": "<%= field.description %>"<% } %>
+          }<%= fi < entity.fields.length - 1 ? ',' : '' %>
+<%   }) -%>
+        }
+      },
+      "<%= entity.name %>Create": {
+        "type": "object",
+        "properties": {
+<%   entity.fields.filter(f => f.name !== 'id' && !['created_by','created_at','updated_at'].includes(f.name)).forEach((field, fi) => { -%>
+          "<%= field.name %>": {
+            "type": "<%= openapiType(field.type) %>"<% if (field.required !== false) { %>,
+            "nullable": false<% } %>
+          }<%= fi < entity.fields.filter(f => f.name !== 'id' && !['created_by','created_at','updated_at'].includes(f.name)).length - 1 ? ',' : '' %>
+<%   }) -%>
+        }
+      }<%= ei < entities.length - 1 ? ',' : '' %>
+<% }) -%>
+    }
+  }
+}

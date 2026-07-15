@@ -1,0 +1,8 @@
+/* ===== 布局变量 ===== */
+:root {
+  --layout-topbar-height:  52px;
+  --layout-breadcrumb-height: 40px;
+  --layout-sidebar-width:  240px;
+  --layout-sidebar-collapsed-width: 80px;
+  --layout-content-padding: 24px;
+}

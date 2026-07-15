@@ -1,0 +1,81 @@
+# domain/base/core/process_route.yaml
+domain: base.process_route
+name: 工艺路线
+version: 1.0.0
+description: 产品工艺路线，含工序序列和标准工时
+
+entities:
+  - name: ProcessRoute
+    label: 工艺路线
+    table: process_route
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: route_code
+        type: string
+        label: 路线编码
+        max_length: 32
+        required: true
+      - name: product_code
+        type: string
+        label: 产品编码
+        max_length: 64
+        required: true
+      - name: version
+        type: string
+        label: 版本号
+        max_length: 16
+        default: "1.0"
+      - name: status
+        type: enum
+        label: 状态
+        values: draft, released, obsolete
+        default: draft
+      - name: total_standard_time
+        type: integer
+        label: 总标准工时(分钟)
+        auto_calculate:
+          aggregate: sum
+          source: ProcessStep.standard_time_minutes
+          filter: "process_route_id == id"
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: steps
+        target: ProcessStep
+        type: has_many
+        inverse_of: process_route
+        label: 工序步骤
+
+    list_view:
+      columns:
+        - field: route_code
+          label: 路线编码
+        - field: product_code
+          label: 产品编码
+        - field: version
+          label: 版本
+        - field: status
+          label: 状态
+          formatter: status_tag
+        - field: total_standard_time
+          label: 总工时
+          align: right
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

@@ -1,0 +1,129 @@
+# domain/base/core/device.yaml
+domain: base.device
+name: 设备管理
+version: 1.0.0
+description: 生产设备/工装/夹具/测试设备的台账管理
+
+entities:
+  - name: DeviceCategory
+    label: 设备分类
+    table: device_category
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: category_code
+        type: string
+        label: 分类编码
+        max_length: 32
+        required: true
+      - name: category_name
+        type: string
+        label: 分类名称
+        max_length: 64
+        required: true
+      - name: parent_id
+        type: relation
+        label: 上级分类
+        relation: DeviceCategory
+
+  - name: Device
+    label: 设备
+    table: device
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: device_code
+        type: string
+        label: 设备编码
+        max_length: 32
+        required: true
+        unique: true
+      - name: device_name
+        type: string
+        label: 设备名称
+        max_length: 128
+        required: true
+      - name: device_type
+        type: enum
+        label: 设备类型
+        values: production, tooling, fixture, test_equipment, auxiliary
+        default: production
+        required: true
+      - name: category_id
+        type: relation
+        label: 设备分类
+        relation: DeviceCategory
+      - name: model
+        type: string
+        label: 规格型号
+        max_length: 128
+      - name: production_line_id
+        type: relation
+        label: 所属产线
+        relation: ProductionLine
+      - name: workstation_id
+        type: relation
+        label: 所在工位
+        relation: Workstation
+      - name: status
+        type: enum
+        label: 设备状态
+        values: idle, running, maintenance, fault, offline
+        default: idle
+        required: true
+        status_field: true
+        workflow_ref: device_flow
+      - name: purchase_date
+        type: date
+        label: 采购日期
+      - name: last_maintenance_date
+        type: date
+        label: 最近维保日期
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: production_line
+        target: ProductionLine
+        type: belongs_to
+        foreign_key: production_line_id
+        label: 所属产线
+
+    list_view:
+      columns:
+        - field: device_code
+          label: 设备编码
+          sortable: true
+        - field: device_name
+          label: 设备名称
+        - field: device_type
+          label: 设备类型
+          formatter: tag
+        - field: status
+          label: 状态
+          formatter: status_tag
+        - field: production_line_id
+          label: 所属产线
+        - field: last_maintenance_date
+          label: 最近维保
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

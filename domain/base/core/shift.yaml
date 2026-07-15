@@ -1,0 +1,89 @@
+# domain/base/core/shift.yaml
+domain: base.shift
+name: 班次
+version: 1.0.0
+description: 班次定义，含班制管理和工作时间段
+
+entities:
+  - name: ShiftPattern
+    label: 班制
+    table: shift_pattern
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: pattern_name
+        type: string
+        label: 班制名称
+        max_length: 32
+        required: true
+        unique: true
+      - name: description
+        type: string
+        label: 描述
+        max_length: 256
+
+  - name: Shift
+    label: 班次
+    table: shift
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: shift_code
+        type: string
+        label: 班次编码
+        max_length: 16
+        required: true
+      - name: shift_name
+        type: string
+        label: 班次名称
+        max_length: 32
+        required: true
+      - name: start_time
+        type: string
+        label: 开始时间
+        max_length: 5
+        required: true
+      - name: end_time
+        type: string
+        label: 结束时间
+        max_length: 5
+        required: true
+      - name: shift_date
+        type: date
+        label: 排班日期
+      - name: shift_pattern_id
+        type: relation
+        label: 所属班制
+        relation: ShiftPattern
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+    list_view:
+      columns:
+        - field: shift_code
+          label: 班次编码
+        - field: shift_name
+          label: 班次名称
+        - field: start_time
+          label: 开始时间
+        - field: end_time
+          label: 结束时间
+        - field: shift_date
+          label: 排班日期
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

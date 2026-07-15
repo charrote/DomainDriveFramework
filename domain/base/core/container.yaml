@@ -1,0 +1,93 @@
+# domain/base/core/container.yaml
+domain: base.container
+name: 容器管理
+version: 1.0.0
+description: 料箱/托盘/工装板等生产容器的注册和状态管理
+
+entities:
+  - name: Container
+    label: 容器
+    table: container
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: container_code
+        type: string
+        label: 容器编码
+        max_length: 32
+        required: true
+        unique: true
+        generate: true
+        generate_rule: "CT{YYYYMMDD}{SEQ5}"
+      - name: container_name
+        type: string
+        label: 容器名称
+        max_length: 64
+      - name: container_type
+        type: enum
+        label: 容器类型
+        values: bin, pallet, fixture_tray, tote, other
+        default: bin
+        required: true
+      - name: status
+        type: enum
+        label: 容器状态
+        values: empty, loaded, in_transit, maintenance, scrapped
+        default: empty
+        required: true
+        status_field: true
+      - name: max_weight_kg
+        type: float
+        label: 最大承重(kg)
+      - name: device_id
+        type: relation
+        label: 当前关联设备
+        relation: Device
+      - name: workstation_id
+        type: relation
+        label: 当前所在工位
+        relation: Workstation
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: device
+        target: Device
+        type: belongs_to
+        foreign_key: device_id
+        label: 关联设备
+
+    list_view:
+      columns:
+        - field: container_code
+          label: 容器编码
+          sortable: true
+        - field: container_name
+          label: 容器名称
+        - field: container_type
+          label: 类型
+          formatter: tag
+        - field: status
+          label: 状态
+          formatter: status_tag
+        - field: device_id
+          label: 关联设备
+        - field: workstation_id
+          label: 所在工位
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [operator, supervisor, admin]
+      delete:    [admin]

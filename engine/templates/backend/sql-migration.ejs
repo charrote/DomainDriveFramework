@@ -1,0 +1,56 @@
+-- ============================================================
+-- DDF 数据库迁移脚本
+-- 生成时间: <%= new Date().toISOString() %>
+-- 引擎版本: 1.0.0
+-- ============================================================
+
+-- 启用 UUID 扩展（如需要）
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- ============================================================
+-- 实体表定义（共 <%= entities.length %> 个）
+-- ============================================================
+
+<% entities.forEach((entity, idx) => { -%>
+<%
+  // 预过滤：排除 id(手动处理) 和审计字段（统一在底部添加）
+  const migFields = entity.fields.filter(f => !['id','created_by','created_at','updated_at'].includes(f.name));
+-%>
+
+-- --------------------------------------------------------
+-- <%= idx + 1 %>. <%= entity.name %> — <%= entity.label %>
+-- Domain: <%= entity.domain %>
+<% if (entity.description) { -%>
+-- <%= entity.description %>
+<% } -%>
+-- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `<%= entity.table %>` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+<% migFields.forEach((field, fi) => { -%>
+  `<%= field.name %>` <%= ddfTypeToSQL(field.type, field) %> <%= sqlDefaultValue(field) %>,
+<% }) -%>
+  `created_by` INT UNSIGNED,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+<% 
+  // 生成索引
+  const indexes = suggestIndexes(entity.fields);
+  const fks = getForeignKeys(entity, ir.entities);
+  for (const idx of indexes) { 
+-%>
+CREATE <%= idx.type === 'UNIQUE' ? 'UNIQUE ' : '' %>INDEX `idx_<%= entity.table %>_<%= idx.column %>` ON `<%= entity.table %>` (`<%= idx.column %>`);
+<% } -%>
+<% for (const fk of fks) { -%>
+ALTER TABLE `<%= entity.table %>` ADD CONSTRAINT `fk_<%= entity.table %>_<%= fk.column %>`
+  FOREIGN KEY (`<%= fk.column %>`) REFERENCES `<%= fk.references %>`(`id`)
+  ON DELETE SET NULL ON UPDATE CASCADE;
+<% } -%>
+
+<% }) -%>
+
+-- ============================================================
+-- 初始化管理员用户
+-- ============================================================
+-- INSERT INTO `user` (`username`, `password_hash`, `role`) VALUES ('admin', '<hash>', 'admin');

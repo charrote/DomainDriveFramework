@@ -1,0 +1,103 @@
+# domain/base/core/operator.yaml
+domain: base.operator
+name: 作业人员
+version: 1.0.0
+description: 产线作业人员，含技能、所属组织、排班信息
+
+entities:
+  - name: Operator
+    label: 作业人员
+    table: operator
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: operator_no
+        type: string
+        label: 工号
+        max_length: 32
+        required: true
+        unique: true
+      - name: operator_name
+        type: string
+        label: 姓名
+        max_length: 64
+        required: true
+      - name: user_id
+        type: relation
+        label: 关联用户
+        relation: User
+      - name: production_line_id
+        type: relation
+        label: 所属产线
+        relation: ProductionLine
+      - name: shift_id
+        type: relation
+        label: 当前班次
+        relation: Shift
+      - name: skill_level
+        type: enum
+        label: 技能等级
+        values: junior, intermediate, senior, master
+        default: junior
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive, leave
+        default: active
+        status_field: true
+      - name: phone
+        type: string
+        label: 联系电话
+        max_length: 20
+      - name: hire_date
+        type: date
+        label: 入职日期
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+      - name: updated_at
+        type: datetime
+        label: 更新时间
+        auto_fill: NOW_ON_UPDATE
+
+    relations:
+      - name: production_line
+        target: ProductionLine
+        type: belongs_to
+        foreign_key: production_line_id
+        label: 所属产线
+      - name: shift
+        target: Shift
+        type: belongs_to
+        foreign_key: shift_id
+        label: 当前班次
+
+    list_view:
+      columns:
+        - field: operator_no
+          label: 工号
+          sortable: true
+        - field: operator_name
+          label: 姓名
+        - field: production_line_id
+          label: 所属产线
+        - field: shift_id
+          label: 班次
+        - field: skill_level
+          label: 技能等级
+          formatter: tag
+        - field: status
+          label: 状态
+          formatter: status_tag
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

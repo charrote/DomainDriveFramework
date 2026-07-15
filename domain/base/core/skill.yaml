@@ -1,0 +1,92 @@
+# domain/base/core/skill.yaml
+domain: base.skill
+name: 技能管理
+version: 1.0.0
+description: 技能定义与人员技能关联，支持多对多关系
+
+entities:
+  - name: Skill
+    label: 技能
+    table: skill
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: skill_code
+        type: string
+        label: 技能编码
+        max_length: 32
+        required: true
+        unique: true
+      - name: skill_name
+        type: string
+        label: 技能名称
+        max_length: 64
+        required: true
+      - name: category
+        type: string
+        label: 技能类别
+        max_length: 64
+        description: 如：焊接、组装、质检、维修
+      - name: description
+        type: string
+        label: 描述
+        max_length: 256
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+  - name: OperatorSkill
+    label: 人员技能
+    table: operator_skill
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: operator_id
+        type: relation
+        label: 作业人员
+        relation: Operator
+        required: true
+      - name: skill_id
+        type: relation
+        label: 技能
+        relation: Skill
+        required: true
+      - name: skill_level
+        type: enum
+        label: 熟练度
+        values: junior, intermediate, senior, master
+        default: junior
+      - name: certified
+        type: boolean
+        label: 是否认证
+        default: false
+      - name: expire_date
+        type: date
+        label: 资质有效期
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

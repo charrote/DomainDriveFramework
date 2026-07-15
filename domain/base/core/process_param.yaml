@@ -1,0 +1,94 @@
+# domain/base/core/process_param.yaml
+domain: base.process_param
+name: 工艺参数
+version: 1.0.0
+description: 工序中的采集参数定义，如温度/压力/尺寸等
+
+entities:
+  - name: ProcessParam
+    label: 工艺参数
+    table: process_param
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: param_code
+        type: string
+        label: 参数编码
+        max_length: 32
+        required: true
+      - name: param_name
+        type: string
+        label: 参数名称
+        max_length: 64
+        required: true
+      - name: process_step_id
+        type: relation
+        label: 所属工序
+        relation: ProcessStep
+        required: true
+      - name: data_type
+        type: enum
+        label: 数据类型
+        values: text, number, boolean, enum, datetime
+        default: number
+      - name: unit
+        type: string
+        label: 单位
+        max_length: 16
+        description: 如 ℃, mm, MPa
+      - name: spec_min
+        type: float
+        label: 规格下限
+      - name: spec_max
+        type: float
+        label: 规格上限
+      - name: options
+        type: string
+        label: 可选值
+        max_length: 500
+        description: 枚举类型时使用，逗号分隔
+      - name: required
+        type: boolean
+        label: 是否必填
+        default: true
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+    list_view:
+      columns:
+        - field: param_code
+          label: 参数编码
+        - field: param_name
+          label: 参数名称
+        - field: process_step_id
+          label: 所属工序
+        - field: data_type
+          label: 数据类型
+          formatter: tag
+        - field: unit
+          label: 单位
+        - field: spec_min
+          label: 规格下限
+          align: right
+        - field: spec_max
+          label: 规格上限
+          align: right
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

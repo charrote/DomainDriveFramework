@@ -1,0 +1,64 @@
+# === Dependencies ===
+node_modules/
+.pnp
+.pnp.js
+
+# === Build / Output ===
+dist/
+build/
+*.tsbuildinfo
+
+# === Environment files ===
+.env
+.env.local
+.env.*.local
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# === IDE / Editor ===
+.idea/
+.vscode/
+*.sublime-*
+.project
+.classpath
+.settings/
+
+# === Logs ===
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Runtime ===
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# === Test coverage ===
+coverage/
+.nyc_output/
+
+# === Prisma (dev) ===
+server/prisma/dev.db
+server/prisma/dev.db-journal
+
+# === Generated code ===
+# NOTE: generated/ is committed because it is the framework output artifact
+# that demonstrates the code generation capability. Uncomment to exclude:
+# generated/
+
+# === Docker ===
+deploy/.env
+
+# === Temp ===
+tmp/
+temp/
+
+# === Personal reference screenshots ===
+inference_config_*.png

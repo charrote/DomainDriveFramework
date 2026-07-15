@@ -1,0 +1,72 @@
+# domain/base/core/defect.yaml
+domain: base.defect
+name: 缺陷管理
+version: 1.0.0
+description: 缺陷分类和维护
+
+entities:
+  - name: DefectCategory
+    label: 缺陷分类
+    table: defect_category
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: category_code
+        type: string
+        label: 分类编码
+        max_length: 32
+      - name: category_name
+        type: string
+        label: 分类名称
+        max_length: 64
+      - name: parent_id
+        type: relation
+        label: 上级分类
+        relation: DefectCategory
+
+  - name: Defect
+    label: 缺陷
+    table: defect
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: defect_code
+        type: string
+        label: 缺陷编码
+        max_length: 32
+        required: true
+      - name: defect_name
+        type: string
+        label: 缺陷名称
+        max_length: 64
+        required: true
+      - name: category_id
+        type: relation
+        label: 缺陷分类
+        relation: DefectCategory
+        required: true
+      - name: severity
+        type: enum
+        label: 严重程度
+        values: critical, major, minor
+        default: minor
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+
+    permissions:
+      read:      [operator, supervisor, quality_inspector, admin]
+      create:    [quality_inspector, admin]
+      write:     [quality_inspector, admin]
+      delete:    [admin]

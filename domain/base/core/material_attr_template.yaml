@@ -1,0 +1,95 @@
+# domain/base/core/material_attr_template.yaml
+domain: base.material_attr_template
+name: 物料属性模板
+version: 1.0.0
+description: 物料动态属性模板，以 key-value 模式支持可扩展属性
+
+entities:
+  - name: MaterialAttrTemplate
+    label: 物料属性模板
+    table: material_attr_template
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: attr_code
+        type: string
+        label: 属性编码
+        max_length: 32
+        required: true
+        unique: true
+      - name: attr_name
+        type: string
+        label: 属性名称
+        max_length: 64
+        required: true
+      - name: attr_type
+        type: enum
+        label: 属性类型
+        values: text, number, enum, date, boolean
+        default: text
+      - name: options
+        type: string
+        label: 可选值列表
+        max_length: 500
+        description: 枚举类型时使用，逗号分隔，如：红色,蓝色,绿色
+      - name: unit
+        type: string
+        label: 单位
+        max_length: 16
+        description: 如 mm, kg, ℃
+      - name: required
+        type: boolean
+        label: 是否必填
+        default: false
+      - name: status
+        type: enum
+        label: 状态
+        values: active, inactive
+        default: active
+        status_field: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+  - name: MaterialAttrValue
+    label: 物料属性值
+    table: material_attr_value
+    fields:
+      - name: id
+        type: integer
+        label: ID
+        primary_key: true
+        generate: true
+        sequence: { strategy: db }
+      - name: material_id
+        type: relation
+        label: 物料
+        relation: Material
+        required: true
+      - name: attr_id
+        type: relation
+        label: 属性模板
+        relation: MaterialAttrTemplate
+        required: true
+      - name: value
+        type: string
+        label: 属性值
+        max_length: 256
+        required: true
+      - name: created_at
+        type: datetime
+        label: 创建时间
+        auto_fill: NOW()
+        read_only: true
+
+    permissions:
+      read:      [operator, supervisor, admin]
+      create:    [supervisor, admin]
+      write:     [supervisor, admin]
+      delete:    [admin]

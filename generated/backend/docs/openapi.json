@@ -1,0 +1,4959 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DDF 精密五金 MES API",
+    "version": "1.0.0",
+    "description": "由 DomainDriveFramework 引擎自动生成",
+    "contact": {
+      "name": "DDF Engine"
+    }
+  },
+  "servers": [
+    { "url": "http://localhost:3000", "description": "本地开发" }
+  ],
+  "paths": {
+    "/api/barcode": {
+      "get": {
+        "summary": "分页查询条码",
+        "tags": ["Barcode"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Barcode" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建条码",
+        "tags": ["Barcode"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BarcodeCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/barcode/{id}": {
+      "get": {
+        "summary": "查询条码详情",
+        "tags": ["Barcode"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新条码",
+        "tags": ["Barcode"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BarcodeCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除条码",
+        "tags": ["Barcode"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/product-bom": {
+      "get": {
+        "summary": "分页查询产品 BOM",
+        "tags": ["ProductBOM"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/ProductBOM" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建产品 BOM",
+        "tags": ["ProductBOM"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductBOMCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/product-bom/{id}": {
+      "get": {
+        "summary": "查询产品 BOM详情",
+        "tags": ["ProductBOM"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新产品 BOM",
+        "tags": ["ProductBOM"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductBOMCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除产品 BOM",
+        "tags": ["ProductBOM"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/bom-item": {
+      "get": {
+        "summary": "分页查询BOM 明细",
+        "tags": ["BOMItem"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/BOMItem" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建BOM 明细",
+        "tags": ["BOMItem"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BOMItemCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/bom-item/{id}": {
+      "get": {
+        "summary": "查询BOM 明细详情",
+        "tags": ["BOMItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新BOM 明细",
+        "tags": ["BOMItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BOMItemCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除BOM 明细",
+        "tags": ["BOMItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/coding-rule": {
+      "get": {
+        "summary": "分页查询编码规则",
+        "tags": ["CodingRule"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/CodingRule" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建编码规则",
+        "tags": ["CodingRule"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CodingRuleCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/coding-rule/{id}": {
+      "get": {
+        "summary": "查询编码规则详情",
+        "tags": ["CodingRule"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新编码规则",
+        "tags": ["CodingRule"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CodingRuleCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除编码规则",
+        "tags": ["CodingRule"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/container": {
+      "get": {
+        "summary": "分页查询容器",
+        "tags": ["Container"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Container" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建容器",
+        "tags": ["Container"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ContainerCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/container/{id}": {
+      "get": {
+        "summary": "查询容器详情",
+        "tags": ["Container"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新容器",
+        "tags": ["Container"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ContainerCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除容器",
+        "tags": ["Container"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/defect-category": {
+      "get": {
+        "summary": "分页查询缺陷分类",
+        "tags": ["DefectCategory"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/DefectCategory" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建缺陷分类",
+        "tags": ["DefectCategory"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DefectCategoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/defect-category/{id}": {
+      "get": {
+        "summary": "查询缺陷分类详情",
+        "tags": ["DefectCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新缺陷分类",
+        "tags": ["DefectCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DefectCategoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除缺陷分类",
+        "tags": ["DefectCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/defect": {
+      "get": {
+        "summary": "分页查询缺陷",
+        "tags": ["Defect"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Defect" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建缺陷",
+        "tags": ["Defect"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DefectCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/defect/{id}": {
+      "get": {
+        "summary": "查询缺陷详情",
+        "tags": ["Defect"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新缺陷",
+        "tags": ["Defect"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DefectCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除缺陷",
+        "tags": ["Defect"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/device-category": {
+      "get": {
+        "summary": "分页查询设备分类",
+        "tags": ["DeviceCategory"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/DeviceCategory" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建设备分类",
+        "tags": ["DeviceCategory"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DeviceCategoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/device-category/{id}": {
+      "get": {
+        "summary": "查询设备分类详情",
+        "tags": ["DeviceCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新设备分类",
+        "tags": ["DeviceCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DeviceCategoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除设备分类",
+        "tags": ["DeviceCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/device": {
+      "get": {
+        "summary": "分页查询设备",
+        "tags": ["Device"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Device" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建设备",
+        "tags": ["Device"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DeviceCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/device/{id}": {
+      "get": {
+        "summary": "查询设备详情",
+        "tags": ["Device"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新设备",
+        "tags": ["Device"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DeviceCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除设备",
+        "tags": ["Device"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/inspection-item": {
+      "get": {
+        "summary": "分页查询检验项目",
+        "tags": ["InspectionItem"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/InspectionItem" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建检验项目",
+        "tags": ["InspectionItem"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InspectionItemCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/inspection-item/{id}": {
+      "get": {
+        "summary": "查询检验项目详情",
+        "tags": ["InspectionItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新检验项目",
+        "tags": ["InspectionItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InspectionItemCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除检验项目",
+        "tags": ["InspectionItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/inspection-plan": {
+      "get": {
+        "summary": "分页查询抽样方案",
+        "tags": ["InspectionPlan"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/InspectionPlan" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建抽样方案",
+        "tags": ["InspectionPlan"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InspectionPlanCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/inspection-plan/{id}": {
+      "get": {
+        "summary": "查询抽样方案详情",
+        "tags": ["InspectionPlan"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新抽样方案",
+        "tags": ["InspectionPlan"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InspectionPlanCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除抽样方案",
+        "tags": ["InspectionPlan"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/material-category": {
+      "get": {
+        "summary": "分页查询物料分类",
+        "tags": ["MaterialCategory"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/MaterialCategory" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建物料分类",
+        "tags": ["MaterialCategory"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MaterialCategoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/material-category/{id}": {
+      "get": {
+        "summary": "查询物料分类详情",
+        "tags": ["MaterialCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新物料分类",
+        "tags": ["MaterialCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MaterialCategoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除物料分类",
+        "tags": ["MaterialCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/material": {
+      "get": {
+        "summary": "分页查询物料",
+        "tags": ["Material"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Material" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建物料",
+        "tags": ["Material"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MaterialCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/material/{id}": {
+      "get": {
+        "summary": "查询物料详情",
+        "tags": ["Material"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新物料",
+        "tags": ["Material"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MaterialCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除物料",
+        "tags": ["Material"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/material-attr-template": {
+      "get": {
+        "summary": "分页查询物料属性模板",
+        "tags": ["MaterialAttrTemplate"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/MaterialAttrTemplate" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建物料属性模板",
+        "tags": ["MaterialAttrTemplate"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MaterialAttrTemplateCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/material-attr-template/{id}": {
+      "get": {
+        "summary": "查询物料属性模板详情",
+        "tags": ["MaterialAttrTemplate"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新物料属性模板",
+        "tags": ["MaterialAttrTemplate"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MaterialAttrTemplateCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除物料属性模板",
+        "tags": ["MaterialAttrTemplate"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/material-attr-value": {
+      "get": {
+        "summary": "分页查询物料属性值",
+        "tags": ["MaterialAttrValue"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/MaterialAttrValue" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建物料属性值",
+        "tags": ["MaterialAttrValue"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MaterialAttrValueCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/material-attr-value/{id}": {
+      "get": {
+        "summary": "查询物料属性值详情",
+        "tags": ["MaterialAttrValue"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新物料属性值",
+        "tags": ["MaterialAttrValue"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MaterialAttrValueCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除物料属性值",
+        "tags": ["MaterialAttrValue"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/operator": {
+      "get": {
+        "summary": "分页查询作业人员",
+        "tags": ["Operator"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Operator" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建作业人员",
+        "tags": ["Operator"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OperatorCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/operator/{id}": {
+      "get": {
+        "summary": "查询作业人员详情",
+        "tags": ["Operator"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新作业人员",
+        "tags": ["Operator"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OperatorCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除作业人员",
+        "tags": ["Operator"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/factory": {
+      "get": {
+        "summary": "分页查询工厂",
+        "tags": ["Factory"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Factory" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建工厂",
+        "tags": ["Factory"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FactoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/factory/{id}": {
+      "get": {
+        "summary": "查询工厂详情",
+        "tags": ["Factory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新工厂",
+        "tags": ["Factory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/FactoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除工厂",
+        "tags": ["Factory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/workshop": {
+      "get": {
+        "summary": "分页查询车间",
+        "tags": ["Workshop"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Workshop" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建车间",
+        "tags": ["Workshop"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkshopCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/workshop/{id}": {
+      "get": {
+        "summary": "查询车间详情",
+        "tags": ["Workshop"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新车间",
+        "tags": ["Workshop"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkshopCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除车间",
+        "tags": ["Workshop"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/production-line": {
+      "get": {
+        "summary": "分页查询产线",
+        "tags": ["ProductionLine"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/ProductionLine" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建产线",
+        "tags": ["ProductionLine"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductionLineCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/production-line/{id}": {
+      "get": {
+        "summary": "查询产线详情",
+        "tags": ["ProductionLine"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新产线",
+        "tags": ["ProductionLine"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductionLineCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除产线",
+        "tags": ["ProductionLine"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/process-param": {
+      "get": {
+        "summary": "分页查询工艺参数",
+        "tags": ["ProcessParam"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/ProcessParam" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建工艺参数",
+        "tags": ["ProcessParam"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProcessParamCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/process-param/{id}": {
+      "get": {
+        "summary": "查询工艺参数详情",
+        "tags": ["ProcessParam"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新工艺参数",
+        "tags": ["ProcessParam"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProcessParamCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除工艺参数",
+        "tags": ["ProcessParam"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/process-route": {
+      "get": {
+        "summary": "分页查询工艺路线",
+        "tags": ["ProcessRoute"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/ProcessRoute" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建工艺路线",
+        "tags": ["ProcessRoute"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProcessRouteCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/process-route/{id}": {
+      "get": {
+        "summary": "查询工艺路线详情",
+        "tags": ["ProcessRoute"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新工艺路线",
+        "tags": ["ProcessRoute"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProcessRouteCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除工艺路线",
+        "tags": ["ProcessRoute"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/process-step": {
+      "get": {
+        "summary": "分页查询工序",
+        "tags": ["ProcessStep"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/ProcessStep" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建工序",
+        "tags": ["ProcessStep"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProcessStepCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/process-step/{id}": {
+      "get": {
+        "summary": "查询工序详情",
+        "tags": ["ProcessStep"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新工序",
+        "tags": ["ProcessStep"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProcessStepCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除工序",
+        "tags": ["ProcessStep"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/production-record": {
+      "get": {
+        "summary": "分页查询生产记录",
+        "tags": ["ProductionRecord"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/ProductionRecord" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建生产记录",
+        "tags": ["ProductionRecord"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductionRecordCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/production-record/{id}": {
+      "get": {
+        "summary": "查询生产记录详情",
+        "tags": ["ProductionRecord"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新生产记录",
+        "tags": ["ProductionRecord"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductionRecordCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除生产记录",
+        "tags": ["ProductionRecord"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/quality-category": {
+      "get": {
+        "summary": "分页查询质量分类",
+        "tags": ["QualityCategory"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/QualityCategory" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建质量分类",
+        "tags": ["QualityCategory"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/QualityCategoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/quality-category/{id}": {
+      "get": {
+        "summary": "查询质量分类详情",
+        "tags": ["QualityCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新质量分类",
+        "tags": ["QualityCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/QualityCategoryCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除质量分类",
+        "tags": ["QualityCategory"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/quality-check": {
+      "get": {
+        "summary": "分页查询质检记录",
+        "tags": ["QualityCheck"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/QualityCheck" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建质检记录",
+        "tags": ["QualityCheck"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/QualityCheckCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/quality-check/{id}": {
+      "get": {
+        "summary": "查询质检记录详情",
+        "tags": ["QualityCheck"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新质检记录",
+        "tags": ["QualityCheck"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/QualityCheckCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除质检记录",
+        "tags": ["QualityCheck"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/shift-pattern": {
+      "get": {
+        "summary": "分页查询班制",
+        "tags": ["ShiftPattern"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/ShiftPattern" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建班制",
+        "tags": ["ShiftPattern"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ShiftPatternCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/shift-pattern/{id}": {
+      "get": {
+        "summary": "查询班制详情",
+        "tags": ["ShiftPattern"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新班制",
+        "tags": ["ShiftPattern"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ShiftPatternCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除班制",
+        "tags": ["ShiftPattern"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/shift": {
+      "get": {
+        "summary": "分页查询班次",
+        "tags": ["Shift"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Shift" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建班次",
+        "tags": ["Shift"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ShiftCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/shift/{id}": {
+      "get": {
+        "summary": "查询班次详情",
+        "tags": ["Shift"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新班次",
+        "tags": ["Shift"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ShiftCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除班次",
+        "tags": ["Shift"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/skill": {
+      "get": {
+        "summary": "分页查询技能",
+        "tags": ["Skill"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Skill" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建技能",
+        "tags": ["Skill"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SkillCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/skill/{id}": {
+      "get": {
+        "summary": "查询技能详情",
+        "tags": ["Skill"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新技能",
+        "tags": ["Skill"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SkillCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除技能",
+        "tags": ["Skill"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/operator-skill": {
+      "get": {
+        "summary": "分页查询人员技能",
+        "tags": ["OperatorSkill"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/OperatorSkill" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建人员技能",
+        "tags": ["OperatorSkill"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OperatorSkillCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/operator-skill/{id}": {
+      "get": {
+        "summary": "查询人员技能详情",
+        "tags": ["OperatorSkill"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新人员技能",
+        "tags": ["OperatorSkill"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OperatorSkillCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除人员技能",
+        "tags": ["OperatorSkill"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/user": {
+      "get": {
+        "summary": "分页查询用户",
+        "tags": ["User"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/User" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建用户",
+        "tags": ["User"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/user/{id}": {
+      "get": {
+        "summary": "查询用户详情",
+        "tags": ["User"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新用户",
+        "tags": ["User"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除用户",
+        "tags": ["User"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/work-order": {
+      "get": {
+        "summary": "分页查询工单",
+        "tags": ["WorkOrder"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/WorkOrder" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建工单",
+        "tags": ["WorkOrder"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkOrderCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/work-order/{id}": {
+      "get": {
+        "summary": "查询工单详情",
+        "tags": ["WorkOrder"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新工单",
+        "tags": ["WorkOrder"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkOrderCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除工单",
+        "tags": ["WorkOrder"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/wobom-item": {
+      "get": {
+        "summary": "分页查询工单 BOM 明细",
+        "tags": ["WOBOMItem"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/WOBOMItem" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建工单 BOM 明细",
+        "tags": ["WOBOMItem"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WOBOMItemCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/wobom-item/{id}": {
+      "get": {
+        "summary": "查询工单 BOM 明细详情",
+        "tags": ["WOBOMItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新工单 BOM 明细",
+        "tags": ["WOBOMItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WOBOMItemCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除工单 BOM 明细",
+        "tags": ["WOBOMItem"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    },
+    "/api/workstation": {
+      "get": {
+        "summary": "分页查询工位",
+        "tags": ["Workstation"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "sortBy", "in": "query", "schema": { "type": "string" } },
+          { "name": "sortOrder", "in": "query", "schema": { "type": "string", "enum": ["asc", "desc"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "分页结果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "type": "array", "items": { "$ref": "#/components/schemas/Workstation" } },
+                    "total": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "pageSize": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建工位",
+        "tags": ["Workstation"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkstationCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功" }
+        }
+      }
+    },
+    "/api/workstation/{id}": {
+      "get": {
+        "summary": "查询工位详情",
+        "tags": ["Workstation"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "实体详情" }
+        }
+      },
+      "put": {
+        "summary": "更新工位",
+        "tags": ["Workstation"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkstationCreate" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "更新成功" }
+        }
+      },
+      "delete": {
+        "summary": "删除工位",
+        "tags": ["Workstation"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "删除成功" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Barcode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "barcode": {
+            "type": "string"
+          },
+          "material_code": {
+            "type": "string"
+          },
+          "batch_no": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          },
+          "production_date": {
+            "type": "string"
+          },
+          "work_order_no": {
+            "type": "integer"
+          },
+          "container_id": {
+            "type": "integer"
+          },
+          "remark": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "BarcodeCreate": {
+        "type": "object",
+        "properties": {
+          "barcode": {
+            "type": "string",
+            "nullable": false
+          },
+          "material_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "batch_no": {
+            "type": "string",
+            "nullable": false
+          },
+          "quantity": {
+            "type": "number",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          },
+          "production_date": {
+            "type": "string",
+            "nullable": false
+          },
+          "work_order_no": {
+            "type": "integer",
+            "nullable": false
+          },
+          "container_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "remark": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "ProductBOM": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "bom_code": {
+            "type": "string"
+          },
+          "product_code": {
+            "type": "string"
+          },
+          "product_name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductBOMCreate": {
+        "type": "object",
+        "properties": {
+          "bom_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "product_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "product_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "version": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "BOMItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "product_bom_id": {
+            "type": "integer"
+          },
+          "material_code": {
+            "type": "string"
+          },
+          "material_name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "scrap_rate": {
+            "type": "number"
+          },
+          "parent_item_id": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "BOMItemCreate": {
+        "type": "object",
+        "properties": {
+          "product_bom_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "material_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "material_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "quantity": {
+            "type": "number",
+            "nullable": false
+          },
+          "unit": {
+            "type": "string",
+            "nullable": false
+          },
+          "scrap_rate": {
+            "type": "number",
+            "nullable": false
+          },
+          "parent_item_id": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "CodingRule": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "rule_code": {
+            "type": "string"
+          },
+          "rule_name": {
+            "type": "string"
+          },
+          "entity_type": {
+            "type": "string"
+          },
+          "prefix": {
+            "type": "string",
+            "description": "如 &#34;WO&#34;、&#34;QC&#34;、&#34;PR&#34;"
+          },
+          "date_format": {
+            "type": "string",
+            "description": "如 &#34;YYYYMMDD&#34;、&#34;YYMMDD&#34;"
+          },
+          "seq_digits": {
+            "type": "integer"
+          },
+          "seq_strategy": {
+            "type": "string"
+          },
+          "seq_scope": {
+            "type": "string"
+          },
+          "sample_output": {
+            "type": "string",
+            "description": "如 &#34;WO2026071400005&#34;"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "CodingRuleCreate": {
+        "type": "object",
+        "properties": {
+          "rule_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "rule_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "entity_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": false
+          },
+          "date_format": {
+            "type": "string",
+            "nullable": false
+          },
+          "seq_digits": {
+            "type": "integer",
+            "nullable": false
+          },
+          "seq_strategy": {
+            "type": "string",
+            "nullable": false
+          },
+          "seq_scope": {
+            "type": "string",
+            "nullable": false
+          },
+          "sample_output": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "Container": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "container_code": {
+            "type": "string"
+          },
+          "container_name": {
+            "type": "string"
+          },
+          "container_type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "max_weight_kg": {
+            "type": "number"
+          },
+          "device_id": {
+            "type": "integer"
+          },
+          "workstation_id": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ContainerCreate": {
+        "type": "object",
+        "properties": {
+          "container_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "container_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "container_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          },
+          "max_weight_kg": {
+            "type": "number",
+            "nullable": false
+          },
+          "device_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "workstation_id": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "DefectCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "category_code": {
+            "type": "string"
+          },
+          "category_name": {
+            "type": "string"
+          },
+          "parent_id": {
+            "type": "integer"
+          }
+        }
+      },
+      "DefectCategoryCreate": {
+        "type": "object",
+        "properties": {
+          "category_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "category_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "parent_id": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "Defect": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "defect_code": {
+            "type": "string"
+          },
+          "defect_name": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "integer"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "DefectCreate": {
+        "type": "object",
+        "properties": {
+          "defect_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "defect_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "category_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "severity": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "DeviceCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "category_code": {
+            "type": "string"
+          },
+          "category_name": {
+            "type": "string"
+          },
+          "parent_id": {
+            "type": "integer"
+          }
+        }
+      },
+      "DeviceCategoryCreate": {
+        "type": "object",
+        "properties": {
+          "category_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "category_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "parent_id": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "device_code": {
+            "type": "string"
+          },
+          "device_name": {
+            "type": "string"
+          },
+          "device_type": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "integer"
+          },
+          "model": {
+            "type": "string"
+          },
+          "production_line_id": {
+            "type": "integer"
+          },
+          "workstation_id": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "purchase_date": {
+            "type": "string"
+          },
+          "last_maintenance_date": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "DeviceCreate": {
+        "type": "object",
+        "properties": {
+          "device_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "device_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "device_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "category_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "model": {
+            "type": "string",
+            "nullable": false
+          },
+          "production_line_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "workstation_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          },
+          "purchase_date": {
+            "type": "string",
+            "nullable": false
+          },
+          "last_maintenance_date": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "InspectionItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "item_code": {
+            "type": "string"
+          },
+          "item_name": {
+            "type": "string"
+          },
+          "quality_category_id": {
+            "type": "integer"
+          },
+          "data_type": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string",
+            "description": "如 mm, kg, ℃"
+          },
+          "spec_min": {
+            "type": "number"
+          },
+          "spec_max": {
+            "type": "number"
+          },
+          "options": {
+            "type": "string",
+            "description": "枚举类型时使用，逗号分隔"
+          },
+          "method": {
+            "type": "string",
+            "description": "如 &#34;游标卡尺测量&#34;、&#34;目视检查&#34;"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "InspectionItemCreate": {
+        "type": "object",
+        "properties": {
+          "item_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "item_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "quality_category_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "data_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "unit": {
+            "type": "string",
+            "nullable": false
+          },
+          "spec_min": {
+            "type": "number",
+            "nullable": false
+          },
+          "spec_max": {
+            "type": "number",
+            "nullable": false
+          },
+          "options": {
+            "type": "string",
+            "nullable": false
+          },
+          "method": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "InspectionPlan": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "plan_code": {
+            "type": "string"
+          },
+          "plan_name": {
+            "type": "string"
+          },
+          "check_type": {
+            "type": "string"
+          },
+          "batch_min": {
+            "type": "integer"
+          },
+          "batch_max": {
+            "type": "integer"
+          },
+          "sample_size": {
+            "type": "integer"
+          },
+          "accept_limit": {
+            "type": "integer",
+            "description": "允许的最大不合格数"
+          },
+          "reject_limit": {
+            "type": "integer",
+            "description": "拒收的最小不合格数"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "InspectionPlanCreate": {
+        "type": "object",
+        "properties": {
+          "plan_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "plan_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "check_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "batch_min": {
+            "type": "integer",
+            "nullable": false
+          },
+          "batch_max": {
+            "type": "integer",
+            "nullable": false
+          },
+          "sample_size": {
+            "type": "integer",
+            "nullable": false
+          },
+          "accept_limit": {
+            "type": "integer",
+            "nullable": false
+          },
+          "reject_limit": {
+            "type": "integer",
+            "nullable": false
+          },
+          "severity": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "MaterialCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "category_code": {
+            "type": "string"
+          },
+          "category_name": {
+            "type": "string"
+          },
+          "level": {
+            "type": "integer"
+          },
+          "parent_id": {
+            "type": "integer"
+          }
+        }
+      },
+      "MaterialCategoryCreate": {
+        "type": "object",
+        "properties": {
+          "category_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "category_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "level": {
+            "type": "integer",
+            "nullable": false
+          },
+          "parent_id": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "Material": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "material_code": {
+            "type": "string"
+          },
+          "material_name": {
+            "type": "string"
+          },
+          "specification": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "integer"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "material_type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "MaterialCreate": {
+        "type": "object",
+        "properties": {
+          "material_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "material_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "specification": {
+            "type": "string",
+            "nullable": false
+          },
+          "category_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "unit": {
+            "type": "string",
+            "nullable": false
+          },
+          "material_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "MaterialAttrTemplate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "attr_code": {
+            "type": "string"
+          },
+          "attr_name": {
+            "type": "string"
+          },
+          "attr_type": {
+            "type": "string"
+          },
+          "options": {
+            "type": "string",
+            "description": "枚举类型时使用，逗号分隔，如：红色,蓝色,绿色"
+          },
+          "unit": {
+            "type": "string",
+            "description": "如 mm, kg, ℃"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "MaterialAttrTemplateCreate": {
+        "type": "object",
+        "properties": {
+          "attr_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "attr_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "attr_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "options": {
+            "type": "string",
+            "nullable": false
+          },
+          "unit": {
+            "type": "string",
+            "nullable": false
+          },
+          "required": {
+            "type": "boolean",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "MaterialAttrValue": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "material_id": {
+            "type": "integer"
+          },
+          "attr_id": {
+            "type": "integer"
+          },
+          "value": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "MaterialAttrValueCreate": {
+        "type": "object",
+        "properties": {
+          "material_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "attr_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "value": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "Operator": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "operator_no": {
+            "type": "string"
+          },
+          "operator_name": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "production_line_id": {
+            "type": "integer"
+          },
+          "shift_id": {
+            "type": "integer"
+          },
+          "skill_level": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "hire_date": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "OperatorCreate": {
+        "type": "object",
+        "properties": {
+          "operator_no": {
+            "type": "string",
+            "nullable": false
+          },
+          "operator_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "user_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "production_line_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "shift_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "skill_level": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          },
+          "phone": {
+            "type": "string",
+            "nullable": false
+          },
+          "hire_date": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "Factory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "factory_code": {
+            "type": "string"
+          },
+          "factory_name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "FactoryCreate": {
+        "type": "object",
+        "properties": {
+          "factory_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "factory_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "Workshop": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "factory_id": {
+            "type": "integer"
+          },
+          "workshop_code": {
+            "type": "string"
+          },
+          "workshop_name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "WorkshopCreate": {
+        "type": "object",
+        "properties": {
+          "factory_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "workshop_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "workshop_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "ProductionLine": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "workshop_id": {
+            "type": "integer"
+          },
+          "line_code": {
+            "type": "string"
+          },
+          "line_name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductionLineCreate": {
+        "type": "object",
+        "properties": {
+          "workshop_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "line_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "line_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "ProcessParam": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "param_code": {
+            "type": "string"
+          },
+          "param_name": {
+            "type": "string"
+          },
+          "process_step_id": {
+            "type": "integer"
+          },
+          "data_type": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string",
+            "description": "如 ℃, mm, MPa"
+          },
+          "spec_min": {
+            "type": "number"
+          },
+          "spec_max": {
+            "type": "number"
+          },
+          "options": {
+            "type": "string",
+            "description": "枚举类型时使用，逗号分隔"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ProcessParamCreate": {
+        "type": "object",
+        "properties": {
+          "param_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "param_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "process_step_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "data_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "unit": {
+            "type": "string",
+            "nullable": false
+          },
+          "spec_min": {
+            "type": "number",
+            "nullable": false
+          },
+          "spec_max": {
+            "type": "number",
+            "nullable": false
+          },
+          "options": {
+            "type": "string",
+            "nullable": false
+          },
+          "required": {
+            "type": "boolean",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "ProcessRoute": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "route_code": {
+            "type": "string"
+          },
+          "product_code": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "total_standard_time": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ProcessRouteCreate": {
+        "type": "object",
+        "properties": {
+          "route_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "product_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "version": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          },
+          "total_standard_time": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "ProcessStep": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "process_route_id": {
+            "type": "integer"
+          },
+          "step_no": {
+            "type": "integer"
+          },
+          "step_code": {
+            "type": "string"
+          },
+          "step_name": {
+            "type": "string"
+          },
+          "standard_time_minutes": {
+            "type": "integer"
+          },
+          "device_type_required": {
+            "type": "string"
+          },
+          "workstation_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ProcessStepCreate": {
+        "type": "object",
+        "properties": {
+          "process_route_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "step_no": {
+            "type": "integer",
+            "nullable": false
+          },
+          "step_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "step_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "standard_time_minutes": {
+            "type": "integer",
+            "nullable": false
+          },
+          "device_type_required": {
+            "type": "string",
+            "nullable": false
+          },
+          "workstation_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "ProductionRecord": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "record_no": {
+            "type": "string"
+          },
+          "work_order_no": {
+            "type": "integer"
+          },
+          "process_step_id": {
+            "type": "integer"
+          },
+          "operator_id": {
+            "type": "integer"
+          },
+          "device_id": {
+            "type": "integer"
+          },
+          "shift_id": {
+            "type": "integer"
+          },
+          "production_line_id": {
+            "type": "integer"
+          },
+          "start_time": {
+            "type": "string"
+          },
+          "end_time": {
+            "type": "string"
+          },
+          "output_quantity": {
+            "type": "integer"
+          },
+          "scrap_quantity": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "remark": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductionRecordCreate": {
+        "type": "object",
+        "properties": {
+          "record_no": {
+            "type": "string",
+            "nullable": false
+          },
+          "work_order_no": {
+            "type": "integer",
+            "nullable": false
+          },
+          "process_step_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "operator_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "device_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "shift_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "production_line_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "start_time": {
+            "type": "string",
+            "nullable": false
+          },
+          "end_time": {
+            "type": "string",
+            "nullable": false
+          },
+          "output_quantity": {
+            "type": "integer",
+            "nullable": false
+          },
+          "scrap_quantity": {
+            "type": "integer",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          },
+          "remark": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "QualityCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "category_code": {
+            "type": "string"
+          },
+          "category_name": {
+            "type": "string"
+          },
+          "level": {
+            "type": "integer"
+          },
+          "parent_id": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "QualityCategoryCreate": {
+        "type": "object",
+        "properties": {
+          "category_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "category_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "level": {
+            "type": "integer",
+            "nullable": false
+          },
+          "parent_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "QualityCheck": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "check_no": {
+            "type": "string"
+          },
+          "work_order_no": {
+            "type": "integer"
+          },
+          "production_record_id": {
+            "type": "integer"
+          },
+          "check_type": {
+            "type": "string"
+          },
+          "check_name": {
+            "type": "string"
+          },
+          "inspection_item_id": {
+            "type": "integer"
+          },
+          "sample_size": {
+            "type": "integer"
+          },
+          "measured_value": {
+            "type": "number"
+          },
+          "tolerance_min": {
+            "type": "number"
+          },
+          "tolerance_max": {
+            "type": "number"
+          },
+          "result": {
+            "type": "string"
+          },
+          "defect_id": {
+            "type": "integer"
+          },
+          "inspector_id": {
+            "type": "integer"
+          },
+          "check_time": {
+            "type": "string"
+          },
+          "remark": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "QualityCheckCreate": {
+        "type": "object",
+        "properties": {
+          "check_no": {
+            "type": "string",
+            "nullable": false
+          },
+          "work_order_no": {
+            "type": "integer",
+            "nullable": false
+          },
+          "production_record_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "check_type": {
+            "type": "string",
+            "nullable": false
+          },
+          "check_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "inspection_item_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "sample_size": {
+            "type": "integer",
+            "nullable": false
+          },
+          "measured_value": {
+            "type": "number",
+            "nullable": false
+          },
+          "tolerance_min": {
+            "type": "number",
+            "nullable": false
+          },
+          "tolerance_max": {
+            "type": "number",
+            "nullable": false
+          },
+          "result": {
+            "type": "string",
+            "nullable": false
+          },
+          "defect_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "inspector_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "check_time": {
+            "type": "string",
+            "nullable": false
+          },
+          "remark": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "ShiftPattern": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "pattern_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "ShiftPatternCreate": {
+        "type": "object",
+        "properties": {
+          "pattern_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "Shift": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "shift_code": {
+            "type": "string"
+          },
+          "shift_name": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "string"
+          },
+          "end_time": {
+            "type": "string"
+          },
+          "shift_date": {
+            "type": "string"
+          },
+          "shift_pattern_id": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ShiftCreate": {
+        "type": "object",
+        "properties": {
+          "shift_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "shift_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "start_time": {
+            "type": "string",
+            "nullable": false
+          },
+          "end_time": {
+            "type": "string",
+            "nullable": false
+          },
+          "shift_date": {
+            "type": "string",
+            "nullable": false
+          },
+          "shift_pattern_id": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "Skill": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "skill_code": {
+            "type": "string"
+          },
+          "skill_name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "description": "如：焊接、组装、质检、维修"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "SkillCreate": {
+        "type": "object",
+        "properties": {
+          "skill_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "skill_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "category": {
+            "type": "string",
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "OperatorSkill": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "operator_id": {
+            "type": "integer"
+          },
+          "skill_id": {
+            "type": "integer"
+          },
+          "skill_level": {
+            "type": "string"
+          },
+          "certified": {
+            "type": "boolean"
+          },
+          "expire_date": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "OperatorSkillCreate": {
+        "type": "object",
+        "properties": {
+          "operator_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "skill_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "skill_level": {
+            "type": "string",
+            "nullable": false
+          },
+          "certified": {
+            "type": "boolean",
+            "nullable": false
+          },
+          "expire_date": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "username": {
+            "type": "string"
+          },
+          "real_name": {
+            "type": "string"
+          },
+          "password_hash": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "UserCreate": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": false
+          },
+          "real_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "password_hash": {
+            "type": "string",
+            "nullable": false
+          },
+          "role": {
+            "type": "string",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "WorkOrder": {
+        "type": "object",
+        "properties": {
+          "order_no": {
+            "type": "string"
+          },
+          "product_code": {
+            "type": "string"
+          },
+          "product_name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "completed_quantity": {
+            "type": "integer"
+          },
+          "scrap_quantity": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "plan_start_date": {
+            "type": "string"
+          },
+          "plan_end_date": {
+            "type": "string"
+          },
+          "actual_start_time": {
+            "type": "string"
+          },
+          "actual_end_time": {
+            "type": "string"
+          },
+          "route_id": {
+            "type": "integer"
+          },
+          "production_line_id": {
+            "type": "integer"
+          },
+          "shift_id": {
+            "type": "integer"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "created_by": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "WorkOrderCreate": {
+        "type": "object",
+        "properties": {
+          "order_no": {
+            "type": "string",
+            "nullable": false
+          },
+          "product_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "product_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "quantity": {
+            "type": "integer",
+            "nullable": false
+          },
+          "completed_quantity": {
+            "type": "integer",
+            "nullable": false
+          },
+          "scrap_quantity": {
+            "type": "integer",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          },
+          "priority": {
+            "type": "string",
+            "nullable": false
+          },
+          "plan_start_date": {
+            "type": "string",
+            "nullable": false
+          },
+          "plan_end_date": {
+            "type": "string",
+            "nullable": false
+          },
+          "actual_start_time": {
+            "type": "string",
+            "nullable": false
+          },
+          "actual_end_time": {
+            "type": "string",
+            "nullable": false
+          },
+          "route_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "production_line_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "shift_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "comment": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "WOBOMItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "work_order_no": {
+            "type": "integer"
+          },
+          "material_code": {
+            "type": "string"
+          },
+          "material_name": {
+            "type": "string"
+          },
+          "required_qty": {
+            "type": "number"
+          },
+          "consumed_qty": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "WOBOMItemCreate": {
+        "type": "object",
+        "properties": {
+          "work_order_no": {
+            "type": "integer",
+            "nullable": false
+          },
+          "material_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "material_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "required_qty": {
+            "type": "number",
+            "nullable": false
+          },
+          "consumed_qty": {
+            "type": "number",
+            "nullable": false
+          },
+          "unit": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "Workstation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "station_code": {
+            "type": "string"
+          },
+          "station_name": {
+            "type": "string"
+          },
+          "production_line_id": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "WorkstationCreate": {
+        "type": "object",
+        "properties": {
+          "station_code": {
+            "type": "string",
+            "nullable": false
+          },
+          "station_name": {
+            "type": "string",
+            "nullable": false
+          },
+          "production_line_id": {
+            "type": "integer",
+            "nullable": false
+          },
+          "status": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      }
+    }
+  }
+}
