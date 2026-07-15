@@ -40,16 +40,33 @@ db-push: generate ## 合并 Schema + 推送数据库
 db-seed: ## 填充初始数据
 	cd server && node src/seed.js
 
-# === Docker ===
+# === Docker（生产部署 — PostgreSQL） ===
 
-docker-up: ## Docker Compose 启动
-	cd deploy && docker compose --env-file .env up -d
+docker-up: ## Docker Compose 启动（PostgreSQL 生产模式）
+	cd deploy && docker compose up -d
 
 docker-down: ## Docker Compose 停止
 	cd deploy && docker compose down
 
 docker-build: ## Docker Compose 构建
 	cd deploy && docker compose build
+
+docker-logs: ## 查看 Docker 日志
+	cd deploy && docker compose logs -f
+
+docker-status: ## 查看 Docker 服务状态
+	cd deploy && docker compose ps
+
+docker-restart: ## 重启 Docker 服务
+	cd deploy && docker compose restart
+
+docker-clean: ## 清理所有 Docker 容器 + 数据卷
+	cd deploy && docker compose down -v
+
+docker-pg-shell: ## 进入 PostgreSQL 交互终端
+	cd deploy && docker compose exec postgres psql -U ddf -d ddf
+
+docker-reset: docker-down docker-clean docker-up ## 完全重置（清数据后重启）
 
 # === 工具 ===
 

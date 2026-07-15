@@ -1,0 +1,42 @@
+# === Dependencies ===
+node_modules/
+**/node_modules/
+
+# === Build artifacts ===
+dist/
+build/
+.next/
+
+# === Environment ===
+.env
+.env.local
+.env.*.local
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === IDE ===
+.idea/
+.vscode/
+
+# === Git ===
+.git/
+.gitignore
+
+# === Docs ===
+docs/*.pdf
+docs/*.pptx
+docs/reference/
+
+# === Generated output (Docker rebuilds from scratch) ===
+generated/
+
+# === Dev database ===
+server/prisma/dev.db
+server/prisma/dev.db-journal
+
+# === Temp ===
+tmp/
+temp/
+inference_config_*.png

@@ -26,7 +26,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 RUN addgroup -S ddf && adduser -S ddf -G ddf -h /app && \
-    apk add --no-cache su-exec && \
+    apk add --no-cache su-exec postgresql-client && \
     mkdir -p /app/data && chown -R ddf:ddf /app/data && chmod 755 /app/data
 
 # 从 builder 复制产物
@@ -38,7 +38,7 @@ COPY --from=builder /app/scripts ./scripts
 # 环境变量默认值
 ENV NODE_ENV=production
 ENV PORT=3000
-ENV DATABASE_URL="file:/app/data/dev.db"
+ENV DATABASE_URL="postgresql://ddf:ddf_secret@postgres:5432/ddf"
 ENV JWT_SECRET="change-me-in-production"
 
 EXPOSE 3000

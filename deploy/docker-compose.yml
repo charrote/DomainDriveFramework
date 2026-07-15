@@ -7,6 +7,26 @@
 # ============================================================
 
 services:
+  # ---- PostgreSQL 数据库 ----
+  postgres:
+    image: postgres:16-alpine
+    container_name: ddf-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${PG_USER:-ddf}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-ddf_secret}
+      POSTGRES_DB: ${PG_DATABASE:-ddf}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER:-ddf} -d ${PG_DATABASE:-ddf}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
   # ---- 后端 API 服务 ----
   server:
     build:
@@ -19,15 +39,18 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - DATABASE_URL=file:/app/data/dev.db
+      - DATABASE_URL=postgresql://${PG_USER:-ddf}:${PG_PASSWORD:-ddf_secret}@postgres:5432/${PG_DATABASE:-ddf}
       - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
       - JWT_EXPIRES_IN=7d
+    depends_on:
+      postgres:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
       interval: 15s
       timeout: 5s
       retries: 3
-      start_period: 10s
+      start_period: 20s
 
   # ---- 前端 Web 服务 ----
   app:
@@ -52,5 +75,8 @@ services:
   #   ports:
   #     - "8080:8080"
   #   depends_on:
-  #     - server
+  #     - postgres
+
+volumes:
+  pgdata:
 
